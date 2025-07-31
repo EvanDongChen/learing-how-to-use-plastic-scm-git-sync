@@ -26,7 +26,7 @@ public class NoteManager : MonoBehaviour
         if (placedNoteComponent != null)
         {
             // Assign the correct NoteData to this spawned visual note
-            placedNoteComponent.Setup(dataToSpawn, mainCanvas);
+            placedNoteComponent.noteData = dataToSpawn;
 
             // Set the RectTransform's anchored position
             RectTransform noteRect = noteGO.GetComponent<RectTransform>();

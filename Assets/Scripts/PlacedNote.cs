@@ -2,65 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class PlacedNote : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
+
+public class PlacedNote : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     //Allows note to be dragged
 
     public NoteData noteData;
+    public BarManager currentBar { get; set; }
+    public float localXPos;
 
     [SerializeField] private Canvas canvas;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    private MusicSlot currentOccupiedSlot;
     private Vector2 originalPos;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-
-        currentOccupiedSlot = GetComponentInParent<MusicSlot>();
-        if (currentOccupiedSlot == null)
-        {
-            originalPos = rectTransform.anchoredPosition;
-        }
-    }
-
-    public void Setup(NoteData data, Canvas mainCanvasReference)
-    {
-        noteData = data;
-        canvas = mainCanvasReference;
-
-        currentOccupiedSlot = GetComponentInParent<MusicSlot>();
-        if (currentOccupiedSlot == null)
-        {
-            transform.SetParent(canvas.transform);
-            originalPos = rectTransform.anchoredPosition;
-        }
-    }
-
-    // Get user click on item
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        currentOccupiedSlot = GetComponentInParent<MusicSlot>();
-
-        if (currentOccupiedSlot != null)
-        {
-            currentOccupiedSlot.ClearSlot();
-        }
-        else
-        {
-            //note isnt in a slot, store pos before moving
-            originalPos = rectTransform.anchoredPosition;
-        }
-
-        transform.SetParent(canvas.transform);
-        transform.SetAsLastSibling();
+        originalPos = rectTransform.anchoredPosition;
     }
 
     //Start dragging object
     public void OnBeginDrag(PointerEventData eventData)
     {
+        originalPos = GetComponent<RectTransform>().anchoredPosition;
+
+        if (currentBar != null)
+        {
+            currentBar.RemoveNote(this);
+            currentBar = null;
+        }
+
+        //reparent the main canvas
+        transform.SetParent(canvas.transform);
+        transform.SetAsLastSibling();
+
         canvasGroup.alpha = .7f;
         canvasGroup.blocksRaycasts = false;
     }
@@ -69,7 +46,7 @@ public class PlacedNote : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
     //Allows drag on every frame
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta;
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     //Let go of click
@@ -78,30 +55,14 @@ public class PlacedNote : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
 
-        //drag off? detection
-        MusicSlot droppedOnSlot = null;
-        if (eventData.pointerEnter != null)
+        if (currentBar == null)
         {
-            droppedOnSlot = eventData.pointerEnter.GetComponent<MusicSlot>();
-        }
-
-        if (droppedOnSlot == null)
-        {
-            //go back to original non-slot pos
-            transform.SetParent(canvas.transform);
             rectTransform.anchoredPosition = originalPos;
-            currentOccupiedSlot = null;
             Debug.Log($"Note dropped off slot. Returned to original position: {originalPos}");
         }
-    }
-
-    //call from musicSlot when note is placed
-    public void SetCurrentParent(MusicSlot slot)
-    {
-        currentOccupiedSlot = slot;
-        transform.SetParent(slot.transform);
-        //snap to center of slot
-        rectTransform.anchoredPosition = Vector2.zero;
-        Debug.Log($"Note '{name}' snapped into slot '{slot.name}'.");
+        else
+        {
+            Debug.Log($"Note successfully placed in bar {currentBar.name}.");
+        }
     }
 }
