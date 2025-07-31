@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Dash Settings")]
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
+    public float dashCooldown = 1f; // cooldown in seconds
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isDashing = false;
     private float dashTimeRemaining = 0f;
+    private float dashCooldownTimer = 0f;
     private Vector2 dashDirection;
 
     private void Awake()
@@ -50,7 +52,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        if (!isDashing && moveInput != Vector2.zero)
+        // Only dash if not already dashing AND cooldown is over
+        if (!isDashing && dashCooldownTimer <= 0f && moveInput != Vector2.zero)
         {
             isDashing = true;
             dashTimeRemaining = dashDuration;
@@ -60,6 +63,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Update cooldown timer
+        if (dashCooldownTimer > 0f)
+        {
+            dashCooldownTimer -= Time.fixedDeltaTime;
+        }
+
         if (isDashing)
         {
             rb.linearVelocity = dashDirection * dashSpeed;
@@ -68,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
             if (dashTimeRemaining <= 0f)
             {
                 isDashing = false;
+                dashCooldownTimer = dashCooldown; // start cooldown
             }
         }
         else
