@@ -446,8 +446,6 @@ MonoBehaviour:
     icon: {fileID: 3348532550563196407, guid: 43090986d19ec4d4eb101c2ef83860ea, type: 3}
   cardPrefab: {fileID: 2525945952434879721, guid: 8118a1fd1a9c3454db22161400b76516, type: 3}
   shopPanel: {fileID: 162989166}
-  selectedCount: 0
-  selectedCards: []
 --- !u!4 &1691356235
 Transform:
   m_ObjectHideFlags: 0
