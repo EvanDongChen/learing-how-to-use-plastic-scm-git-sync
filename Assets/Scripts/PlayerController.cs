@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    public float moveSpeed = 5f;
 
     [Header("Dash Settings")]
     public float dashSpeed = 20f;
@@ -16,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
 
     private PlayerInputActions inputActions;
+    private StatsManager statsManager;
 
     private bool isDashing = false;
     private float dashTimeRemaining = 0f;
@@ -27,6 +26,14 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         inputActions = new PlayerInputActions();
         inputActions.Player.Enable();
+        rb.freezeRotation = true;
+
+
+        statsManager = GetComponent<StatsManager>();
+        if (statsManager == null)
+        {
+            Debug.LogError("StatsManager not found");
+        }
     }
 
     private void OnEnable()
@@ -82,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.linearVelocity = moveInput * moveSpeed;
+            rb.linearVelocity = moveInput * statsManager.moveSpeed;
         }
     }
 }
