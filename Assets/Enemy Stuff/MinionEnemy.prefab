@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 3555675203399922436}
   - component: {fileID: 5753970644048573716}
   - component: {fileID: 7890090342241070308}
+  - component: {fileID: 6696031424954188781}
   m_Layer: 0
   m_Name: MinionEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &656209290422386064
 Transform:
   m_ObjectHideFlags: 0
@@ -166,3 +167,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 2
+--- !u!114 &6696031424954188781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8179629754116159401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60d53a53c25686428f231781b0938c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  currentHealth: 0

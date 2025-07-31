@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class meleeenemyscript : MonoBehaviour
 {
-    enum State { Idle, Walking, Windup, Dashing, Recovering }
+    enum State { Idle, Walking, Windup, Dashing, Recovering, Dazed } // Added Dazed state
     State currentState = State.Idle;
 
     public float walkSpeed = 3f;
@@ -79,6 +79,13 @@ public class meleeenemyscript : MonoBehaviour
                     currentState = State.Idle;
                 }
                 break;
+            case State.Dazed:
+                stateTimer -= Time.deltaTime;
+                if (stateTimer <= 0f)
+                {
+                    currentState = State.Idle;
+                }
+                break;
         }
     }
 
@@ -98,4 +105,12 @@ public class meleeenemyscript : MonoBehaviour
         }
         return nearest;
     }
+
+    public void ApplyDazedEffect()
+    {
+        currentState = State.Dazed;
+        stateTimer = 1f; // Dazed state lasts for 1 second
+    }
+
+   
 }

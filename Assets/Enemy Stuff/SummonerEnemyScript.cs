@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SummonerEnemyScript : MonoBehaviour
 {
-    enum State { Idle, Walking, Attacking }
+    enum State { Idle, Walking, Attacking, Dazed } // Added Dazed state
     State currentState = State.Idle;
 
     public float walkSpeed = 2.5f;
@@ -12,6 +12,7 @@ public class SummonerEnemyScript : MonoBehaviour
     public Transform spawnPoint;
 
     private float fireTimer = 0f;
+    private float stateTimer = 0f; // Timer for Dazed state
 
     void Start()
     {
@@ -75,6 +76,13 @@ public class SummonerEnemyScript : MonoBehaviour
                     currentState = State.Idle;
                 }
                 break;
+            case State.Dazed:
+                stateTimer -= Time.deltaTime;
+                if (stateTimer <= 0f)
+                {
+                    currentState = State.Idle;
+                }
+                break;
         }
     }
 
@@ -108,5 +116,11 @@ public class SummonerEnemyScript : MonoBehaviour
             }
         }
         return nearest;
+    }
+
+    public void ApplyDazedEffect()
+    {
+        currentState = State.Dazed;
+        stateTimer = 1f; // Dazed state lasts for 1 second
     }
 }

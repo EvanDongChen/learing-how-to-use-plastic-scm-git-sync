@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AssassinEnemyScript : MonoBehaviour
 {
-    enum State { Idle, Teleporting, Dashing, Recovering, Resting }
+    enum State { Idle, Teleporting, Dashing, Recovering, Resting, Dazed } // Added Dazed state
     State currentState = State.Idle;
 
     public float dashSpeed = 10f;
@@ -89,6 +89,13 @@ public class AssassinEnemyScript : MonoBehaviour
                     currentState = State.Idle;
                 }
                 break;
+            case State.Dazed:
+                stateTimer -= Time.deltaTime;
+                if (stateTimer <= 0f)
+                {
+                    currentState = State.Idle;
+                }
+                break;
         }
     }
 
@@ -107,5 +114,11 @@ public class AssassinEnemyScript : MonoBehaviour
             }
         }
         return nearest;
+    }
+
+    public void ApplyDazedEffect()
+    {
+        currentState = State.Dazed;
+        stateTimer = 3f; // Dazed state lasts for 1 second
     }
 }
