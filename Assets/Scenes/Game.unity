@@ -246,11 +246,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -2615874204119335, guid: 7d4d3146157616b42b1e15234db12221, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -1595,6 +1595,7 @@ MonoBehaviour:
   statsManager: {fileID: 1206997142}
   healthFillImage: {fileID: 435797653}
   healthText: {fileID: 1624674908}
+  lerpSpeed: 3
 --- !u!1 &1288856476
 GameObject:
   m_ObjectHideFlags: 0
@@ -2921,7 +2922,7 @@ Transform:
   m_GameObject: {fileID: 1967698610}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 4.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

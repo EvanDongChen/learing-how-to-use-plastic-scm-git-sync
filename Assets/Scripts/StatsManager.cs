@@ -109,6 +109,4 @@ public class StatsManager : MonoBehaviour
 
         Debug.Log("Stats Reset.");
     }
-
-
 }
