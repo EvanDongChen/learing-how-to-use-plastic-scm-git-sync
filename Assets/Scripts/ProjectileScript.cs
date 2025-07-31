@@ -7,6 +7,9 @@ public class ProjectileScript : MonoBehaviour
     private float duration;
     public NoteData.Elements element;
     private List<NoteData.AttributeType> attributes;
+
+    public GameObject PlayerStatManager;
+
     private string noteName;
     private int rarity;
     private int level;
@@ -40,30 +43,28 @@ public class ProjectileScript : MonoBehaviour
                 case NoteData.AttributeType.Legato:
                     // TODO: Increase damage by # of legato notes in your music
                     break;
-                // Staccato, Accelerando, Reverb are handled in ProjectileManagerScript or elsewhere
+                    // Staccato, Accelerando, Reverb are handled in ProjectileManagerScript or elsewhere
             }
         }
         return modifiedDamage;
     }
 
-    // Handles player effects after hitting an enemy
+
     public void ApplyPlayerEffects(GameObject player, int damageDealt)
     {
-        if (attributes == null) return;
+        if (attributes == null || PlayerStatManager == null) return;
         foreach (var attr in attributes)
         {
             switch (attr)
             {
                 case NoteData.AttributeType.Melody:
-                    // TODO: Heal player for a portion of damage dealt
+                    // Heal player for a portion of damage dealt
+                    PlayerStatManager.GetComponent<StatsManager>().Heal(1);
                     break;
                 case NoteData.AttributeType.Cadence:
-                    // TODO: Increase player movement speed temporarily after hitting an enemy
+                    // Increase player movement speed temporarily
+                    PlayerStatManager.GetComponent<StatsManager>().BuffMoveSpeed(); // Example: Boost speed by 5 for 3 seconds
                     break;
-                case NoteData.AttributeType.Tremolo:
-                    // TODO: Increase attack speed for a short duration after the note lands, can stack
-                    break;
-                // Staccato, Accelerando, Reverb are handled in ProjectileManagerScript or elsewhere
             }
         }
     }
@@ -112,10 +113,15 @@ public class ProjectileScript : MonoBehaviour
         transform.position += direction * speed * Time.deltaTime;
     }
 
-private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            int finalDamage = GetModifiedDamage(damage);
+            //now apply damage to enemy
+
+            ApplyPlayerEffects(PlayerStatManager, finalDamage);
+
             // Reverb: spawn a larger, stationary note as explosion
             if (attributes != null && attributes.Contains(NoteData.AttributeType.Reverb))
             {
