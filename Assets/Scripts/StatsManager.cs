@@ -79,6 +79,18 @@ public class StatsManager : MonoBehaviour
         Debug.Log("Attack Speed Buff expired. Reset to base.");
     }
 
+    public void TakeDamage(int amount)
+    {
+        currentHealth = Mathf.Max(currentHealth - amount, 0);
+        Debug.Log("Took Damage: " + amount + ", Current Health: " + currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Debug.Log("Player has died.");
+            //TODO: die logic
+        }
+    }
+
     public void ResetStats()
     {
         moveSpeed = baseMoveSpeed;
@@ -97,4 +109,6 @@ public class StatsManager : MonoBehaviour
 
         Debug.Log("Stats Reset.");
     }
+
+
 }
