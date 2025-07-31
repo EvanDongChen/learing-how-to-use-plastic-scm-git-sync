@@ -9,8 +9,8 @@ public class BarManager : MonoBehaviour, IDropHandler
     //Handles logic for adding/arranging notes
 
     //to make all the note duration values whole numbers
-    private int scalingFactor = 2;
-    private int totalTicksInBar = 4;
+    public int scalingFactor = 2;
+    public int totalTicksInBar = 4;
 
     private List<PlacedNote> notesInBar = new List<PlacedNote>();
     private RectTransform barRect;
@@ -21,6 +21,11 @@ public class BarManager : MonoBehaviour, IDropHandler
     {
         barRect = GetComponent<RectTransform>();
         totalTicksInBar *= scalingFactor;
+    }
+
+    public List<PlacedNote> GetPlacedNotes()
+    {
+        return notesInBar;
     }
 
     //notes being dropped on the bar
@@ -65,26 +70,24 @@ public class BarManager : MonoBehaviour, IDropHandler
     //arrange the notes visually
     private void redrawNotes()
     {
-        //metrics
         float barWidth = barRect.rect.width;
-        float currentX = 0;
+        float runningTicks = 0;
 
         foreach (PlacedNote note in notesInBar)
         {
-            //calculate how much space there is for each of the notes + the scaling
             RectTransform noteRect = note.GetComponent<RectTransform>();
-            float timeSlotWidthPercentage = (float)note.noteData.noteDuration * scalingFactor / totalTicksInBar;
-            float timeSlotWidth = barWidth * timeSlotWidthPercentage;
+            float noteDurationTicks = note.noteData.noteDuration * scalingFactor;
 
-            //set the anchor and pivot
-            noteRect.anchorMin = new Vector2(0, 0.5f);
-            noteRect.anchorMax = new Vector2(0, 0.5f);
-            noteRect.pivot = new Vector2(0, 0.5f);
+            float slotCenterInTicks = runningTicks + (noteDurationTicks / 2f);
+            float slotCenterPercentage = slotCenterInTicks / totalTicksInBar;
+            float noteCenterX = (slotCenterPercentage - barRect.pivot.x) * barWidth;
 
-            noteRect.anchoredPosition = new Vector2(currentX, 0);
-            noteRect.sizeDelta =  new Vector2(fixedNoteWidth, noteRect.sizeDelta.y);
+            noteRect.anchoredPosition = new Vector2(noteCenterX, 0);
+            noteRect.sizeDelta = new Vector2(fixedNoteWidth, noteRect.sizeDelta.y);
 
-            currentX += timeSlotWidth;
+            note.localXPos = noteCenterX;
+
+            runningTicks += noteDurationTicks;
         }
     }
 
@@ -92,6 +95,35 @@ public class BarManager : MonoBehaviour, IDropHandler
     public List<NoteData> GetNoteSequence()
     {
         return notesInBar.Select(note => note.noteData).ToList();
+    }
+
+    public NoteData GetNoteAtTick(int targetTick)
+    {
+        int currentTick = 0;
+        foreach (PlacedNote note in notesInBar)
+        {
+            int noteDuration = (int)(note.noteData.noteDuration * scalingFactor);
+            //check if targettick is at the start or end of this note
+            if (targetTick >= currentTick && targetTick < currentTick + noteDuration)
+            {
+                return note.noteData;
+            }
+            currentTick += noteDuration;
+        }
+        return null;
+    }
+
+    public int GetLastNoteEndTick()
+    {
+        if (notesInBar.Count == 0)
+        {
+            return 0;
+        }
+
+        int lastTick = (int)notesInBar.Sum(note => note.noteData.noteDuration * scalingFactor);
+        Debug.Log($"Bar '{name}' is reporting its last note ends at tick: {lastTick}");
+
+        return lastTick;
     }
 
 }

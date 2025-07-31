@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 public class PlacedNote : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     //Allows note to be dragged
 
     public NoteData noteData;
     public BarManager currentBar { get; set; }
+    public float localXPos;
 
     [SerializeField] private Canvas canvas;
     private RectTransform rectTransform;
