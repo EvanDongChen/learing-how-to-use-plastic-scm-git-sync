@@ -7,7 +7,8 @@ public class CameraViewSwitcher : MonoBehaviour
     public Transform playerTransform;  // Your player Transform
     public Transform mapViewAnchor;
 
-    public Canvas musicSheet;   // Assign your music sheet GameObject here
+    public Canvas musicSheet;   
+    public Canvas healthBar;
 
     public float playerZoom = 6f;
     public float mapZoom = 20f;
@@ -25,6 +26,7 @@ public class CameraViewSwitcher : MonoBehaviour
         targetZoom = playerZoom;
 
         musicSheet.gameObject.SetActive(true);  // Show music sheet initially since player view
+        healthBar.gameObject.SetActive(true);
     }
 
     void Update()
@@ -35,6 +37,7 @@ public class CameraViewSwitcher : MonoBehaviour
             targetZoom = mapZoom;
 
             musicSheet.gameObject.SetActive(false);  // Hide music sheet in map view
+            healthBar.gameObject.SetActive(false);
         }
 
         if (Keyboard.current.pKey.wasPressedThisFrame)
@@ -43,6 +46,7 @@ public class CameraViewSwitcher : MonoBehaviour
             targetZoom = playerZoom;
 
             musicSheet.gameObject.SetActive(true);   // Show music sheet in player view
+            healthBar.gameObject.SetActive(true);
         }
 
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * zoomSpeed);
