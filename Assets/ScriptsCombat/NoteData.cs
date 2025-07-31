@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "NoteData", menuName = "Scriptable Objects/NoteData")]
 public class NoteData : ScriptableObject
@@ -8,10 +10,9 @@ public class NoteData : ScriptableObject
     public int level;
     public float noteDuration;
     public Elements element;
-    public Attributes attribute;
+    public List<AttributeType> attributes;
 
-
-    public enum Attributes
+    public enum AttributeType
     {
         Reverb,
         Harmonic,
@@ -23,7 +24,7 @@ public class NoteData : ScriptableObject
         Tremolo,
         Accelerando,
         Melody,
-        Cadence,
+        Cadence
     }
 
     public enum Elements

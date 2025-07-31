@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e194743fb6d357640b4e49b167e408fa, type: 3}
   m_Name: WholeNote
   m_EditorClassIdentifier: 
-  noteName: 
-  rarity: 0
-  level: 0
-  noteDuration: 0
+  noteName: WholeNote
+  rarity: 1
+  level: 1
+  noteDuration: 4
   element: 0
-  attribute: 0
-  note: {fileID: 0}
+  attributes: 

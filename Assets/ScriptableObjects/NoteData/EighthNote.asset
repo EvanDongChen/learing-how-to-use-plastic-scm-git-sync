@@ -17,5 +17,4 @@ MonoBehaviour:
   level: 1
   noteDuration: 0.5
   element: 0
-  attribute: 0
-  note: {fileID: 0}
+  attributes: 
