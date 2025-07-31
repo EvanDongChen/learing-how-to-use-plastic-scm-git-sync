@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public PlayerInputActions InputActions { get; private set; }
     public GameState state;
     public static event Action<GameState> OnStateChange;
 
@@ -13,18 +15,26 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            InputActions = new PlayerInputActions();
+
+            string savedBindings = PlayerPrefs.GetString("rebinds", string.Empty);
+            if (!string.IsNullOrEmpty(savedBindings))
+            {
+                InputActions.asset.LoadBindingOverridesFromJson(savedBindings);
+            }
+
+            InputActions.Enable();
         }
         else
         {
-            Instance = this;
-            //prevent gameobject from being destroyed during new scene load
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }
     }
-
     private void Start()
     {
         updateGameState(GameState.StartMenu);
@@ -79,17 +89,20 @@ public class GameManager : MonoBehaviour
 
     private void runOptionsMenu()
     {
-        throw new NotImplementedException();
+        Debug.Log("Options Menu logic runs here.");
+        // TODO: Add actual Options Menu code
     }
 
     private void runMainGame()
     {
-        throw new NotImplementedException();
+        Debug.Log("Main Game logic runs here.");
+        // TODO: Add actual Main Game code
     }
 
     private void runStartMenu()
     {
-        throw new NotImplementedException();
+        Debug.Log("Start Menu logic runs here.");
+        // TODO: Add actual Start Menu code
     }
 
 

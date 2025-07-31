@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-
     [Header("Dash Settings")]
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
@@ -12,8 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
-
     private PlayerInputActions inputActions;
+
     private StatsManager statsManager;
 
     private bool isDashing = false;
@@ -24,10 +23,11 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        inputActions = new PlayerInputActions();
-        inputActions.Player.Enable();
-        rb.freezeRotation = true;
 
+        inputActions = InputManager.Instance.InputActions;
+        inputActions.Player.Enable();
+
+        rb.freezeRotation = true;
 
         statsManager = GetComponent<StatsManager>();
         if (statsManager == null)
@@ -35,13 +35,13 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError("StatsManager not found");
         }
     }
-
+    
     private void OnEnable()
     {
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
 
-        inputActions.Player.Dash.performed += OnDash; 
+        inputActions.Player.Dash.performed += OnDash;
     }
 
     private void OnDisable()
@@ -59,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        
         if (!isDashing && dashCooldownTimer <= 0f && moveInput != Vector2.zero)
         {
             isDashing = true;
@@ -70,7 +69,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
         if (dashCooldownTimer > 0f)
         {
             dashCooldownTimer -= Time.fixedDeltaTime;

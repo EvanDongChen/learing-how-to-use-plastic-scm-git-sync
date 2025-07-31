@@ -7,11 +7,13 @@ public class KeyRebinder : MonoBehaviour
 {
     public TMP_Text bindingDisplayText;
     public Button rebindButton;
-    public int bindingIndex = 0; // For composite bindings, e.g. 0 for "up"
+    public int bindingIndex = 0;
 
     private InputAction actionToRebind;
 
-    // Call this to initialize the rebinder with the actual InputAction and binding index
+
+    public event System.Action OnRebindComplete;
+
     public void Initialize(InputAction action, int bindingIdx = 0)
     {
         actionToRebind = action;
@@ -30,7 +32,7 @@ public class KeyRebinder : MonoBehaviour
         bindingDisplayText.text = InputControlPath.ToHumanReadableString(
             binding.effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice
-        );
+        ).ToUpper();
     }
 
     public void StartRebinding()
@@ -40,24 +42,57 @@ public class KeyRebinder : MonoBehaviour
         rebindButton.interactable = false;
         bindingDisplayText.text = "Press any key...";
 
-        // Disable action before rebinding
         actionToRebind.Disable();
 
         actionToRebind.PerformInteractiveRebinding(bindingIndex)
             .OnComplete(operation =>
             {
+                string newBindingPath = operation.selectedControl.path;
+                actionToRebind.ApplyBindingOverride(bindingIndex, newBindingPath);
+
                 operation.Dispose();
 
-                // Save and re-enable
                 SaveBindingOverride();
                 UpdateBindingDisplay();
                 actionToRebind.Enable();
 
+                SyncOverridesGlobally();
                 rebindButton.interactable = true;
                 Debug.Log($"Rebound {actionToRebind.name} binding {bindingIndex} to {bindingDisplayText.text}");
+
+                SyncOverridesGlobally();
+
+                OnRebindComplete?.Invoke();
             })
             .Start();
     }
+
+    private void SyncOverridesGlobally()
+    {
+        if (InputManager.Instance == null) return;
+
+        string json = InputManager.Instance.InputActions.SaveBindingOverridesAsJson();
+        PlayerPrefs.SetString("rebinds", json);
+        PlayerPrefs.Save();
+
+        InputManager.Instance.InputActions.LoadBindingOverridesFromJson(json);
+
+        InputManager.Instance.InputActions.Disable();
+        InputManager.Instance.InputActions.Enable();
+
+        var playerInput = InputManager.Instance.GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            playerInput.actions.Disable();
+            playerInput.actions.Enable();
+            Debug.Log("PlayerInput.actions disabled and enabled");
+        }
+
+        Debug.Log("Global InputActions updated and re-enabled with new bindings");
+    }
+
+
+
 
 
     void SaveBindingOverride()
