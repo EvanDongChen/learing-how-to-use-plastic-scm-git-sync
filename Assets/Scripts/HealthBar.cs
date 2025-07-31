@@ -7,6 +7,8 @@ public class HealthBar : MonoBehaviour
     public Image healthFillImage;
     public TMPro.TextMeshProUGUI healthText;
 
+    public float lerpSpeed = 3f;
+    private float targetFillAmount;
 
     void Start()
     {
@@ -14,17 +16,18 @@ public class HealthBar : MonoBehaviour
         {
             Debug.LogError("StatsManager not assigned");
         }
+
+        targetFillAmount = healthFillImage.fillAmount;
     }
 
     void Update()
     {
         if (statsManager == null)
-        {
             return;
-        }
 
-        float fillAmount = (float)statsManager.currentHealth / statsManager.maxHealth;
-        healthFillImage.fillAmount = fillAmount;
+        targetFillAmount = (float)statsManager.currentHealth / statsManager.maxHealth;
+
+        healthFillImage.fillAmount = Mathf.Lerp(healthFillImage.fillAmount, targetFillAmount, Time.deltaTime * lerpSpeed);
 
         healthText.text = $"{statsManager.currentHealth}/{statsManager.maxHealth}";
     }
