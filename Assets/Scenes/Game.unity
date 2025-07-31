@@ -1176,6 +1176,7 @@ MonoBehaviour:
   playerTransform: {fileID: 1523966109}
   mapViewAnchor: {fileID: 1292345598}
   musicSheet: {fileID: 559449658}
+  healthBar: {fileID: 1234554046}
   playerZoom: 3
   mapZoom: 10
   zoomSpeed: 5
