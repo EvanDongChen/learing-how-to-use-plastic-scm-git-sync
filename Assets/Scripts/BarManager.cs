@@ -33,10 +33,12 @@ public class BarManager : MonoBehaviour, IDropHandler
     {
         if (eventData.pointerDrag != null)
         {
-            PlacedNote droppedNote = eventData.pointerDrag.GetComponent<PlacedNote>();
-            if (droppedNote != null && canNoteFit(droppedNote.noteData))
+            DraggableNote draggedNote = eventData.pointerDrag.GetComponent<DraggableNote>();
+            if (draggedNote != null && canNoteFit(draggedNote.noteData))
             {
-                AddNote(droppedNote);
+                AddNote(draggedNote.noteData);
+
+                Destroy(draggedNote.gameObject);
             }
         }
     }
@@ -50,14 +52,19 @@ public class BarManager : MonoBehaviour, IDropHandler
     }
 
     //Add note to list and redraw everything
-    private void AddNote(PlacedNote newNote)
+    private void AddNote(NoteData newNoteData)
     {
-        notesInBar.Add(newNote);
-        int currentTicks = (int)notesInBar.Sum(note => note.noteData.noteDuration * scalingFactor);
-        //set note's new parent to the bar
-        newNote.transform.SetParent(this.transform, false);
-        newNote.currentBar = this;
-        Debug.Log($"Space in bar: {totalTicksInBar / scalingFactor}. Space left in bar: {(totalTicksInBar - currentTicks) / scalingFactor}");
+        GameObject noteOnBar = new GameObject(newNoteData.noteName, typeof(RectTransform));
+        noteOnBar.transform.SetParent(this.transform, false);
+
+        // Create and set up a PlacedNote component to hold the data on the bar
+        PlacedNote placedNote = noteOnBar.AddComponent<PlacedNote>();
+        placedNote.noteData = newNoteData;
+        placedNote.currentBar = this;
+
+        notesInBar.Add(placedNote);
+
+        // Redraw all notes on the bar
         redrawNotes();
     }
 

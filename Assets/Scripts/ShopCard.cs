@@ -9,4 +9,6 @@ public class ShopCard
     public string cardName;
     public Rarity rarity;
     public Sprite icon;
+
+    public NoteData note;
 }

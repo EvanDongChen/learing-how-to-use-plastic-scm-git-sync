@@ -50,11 +50,16 @@ public class ShopManager : MonoBehaviour
     void OnCardSelected(ShopCardUI cardUI, Button button)
     {
         if (selectedCount >= maxSelections) return;
-
+        ShopCard cardData = cardUI.GetCardData();
         selectedCards.Add(cardUI.GetCardData());
         selectedCount++;
 
         button.interactable = false; // Disable after picking
+
+        if (cardData.note != null)
+        {
+            InventoryManager.Instance.AddNote(cardData.note);
+        }
 
         Debug.Log($"Picked: {cardUI.GetCardData().cardName}");
 
