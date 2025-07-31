@@ -50,10 +50,10 @@ public class StatsManager : MonoBehaviour
         RecalculateMaxHealth();
     }
 
-    public void BuffAttackSpeed()
+    public void BuffMoveSpeed()
     {
         speedBuffStacks++;
-        attackSpeed = baseAttackSpeed + speedBuffStacks * speedBuffAmountPerStack;
+        moveSpeed = baseMoveSpeed + speedBuffStacks * speedBuffAmountPerStack;
 
         buffTimer = Mathf.Min(buffTimer + 5f, 5f);
 
@@ -62,7 +62,7 @@ public class StatsManager : MonoBehaviour
             buffCoroutine = StartCoroutine(SpeedBuffTimer());
         }
 
-        Debug.Log($"buffed attack speed | Stacks: {speedBuffStacks}, New Attack Speed: {attackSpeed}, Timer: {buffTimer}");
+        Debug.Log($"Buffed move speed | Stacks: {speedBuffStacks}, New Move Speed: {moveSpeed}, Timer: {buffTimer}");
     }
 
     private IEnumerator SpeedBuffTimer()
@@ -74,9 +74,9 @@ public class StatsManager : MonoBehaviour
         }
 
         speedBuffStacks = 0;
-        attackSpeed = baseAttackSpeed;
+        moveSpeed = baseMoveSpeed;
         buffCoroutine = null;
-        Debug.Log("Attack Speed Buff expired. Reset to base.");
+        Debug.Log("Move Speed Buff expired. Reset to base.");
     }
 
     public void TakeDamage(int amount)
