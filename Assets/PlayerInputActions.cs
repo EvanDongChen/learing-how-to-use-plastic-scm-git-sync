@@ -117,6 +117,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToMap"",
+                    ""type"": ""Button"",
+                    ""id"": ""3023a81d-6426-4476-8c1b-cb145e580636"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToPlayer"",
+                    ""type"": ""Button"",
+                    ""id"": ""948aa7f7-d79d-4258-aa10-17e7e2b07564"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +214,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a9f6e0b-3fd9-4ba6-bf38-df78958bbc9d"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4238f7c3-2317-4b6f-bdbf-2ea5d780af89"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToPlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -207,6 +247,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_SwitchToMap = m_Player.FindAction("SwitchToMap", throwIfNotFound: true);
+        m_Player_SwitchToPlayer = m_Player.FindAction("SwitchToPlayer", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -290,6 +332,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_SwitchToMap;
+    private readonly InputAction m_Player_SwitchToPlayer;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -313,6 +357,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Dash".
         /// </summary>
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SwitchToMap".
+        /// </summary>
+        public InputAction @SwitchToMap => m_Wrapper.m_Player_SwitchToMap;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SwitchToPlayer".
+        /// </summary>
+        public InputAction @SwitchToPlayer => m_Wrapper.m_Player_SwitchToPlayer;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -348,6 +400,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @SwitchToMap.started += instance.OnSwitchToMap;
+            @SwitchToMap.performed += instance.OnSwitchToMap;
+            @SwitchToMap.canceled += instance.OnSwitchToMap;
+            @SwitchToPlayer.started += instance.OnSwitchToPlayer;
+            @SwitchToPlayer.performed += instance.OnSwitchToPlayer;
+            @SwitchToPlayer.canceled += instance.OnSwitchToPlayer;
         }
 
         /// <summary>
@@ -368,6 +426,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @SwitchToMap.started -= instance.OnSwitchToMap;
+            @SwitchToMap.performed -= instance.OnSwitchToMap;
+            @SwitchToMap.canceled -= instance.OnSwitchToMap;
+            @SwitchToPlayer.started -= instance.OnSwitchToPlayer;
+            @SwitchToPlayer.performed -= instance.OnSwitchToPlayer;
+            @SwitchToPlayer.canceled -= instance.OnSwitchToPlayer;
         }
 
         /// <summary>
@@ -429,5 +493,19 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDash(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwitchToMap" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitchToMap(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwitchToPlayer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitchToPlayer(InputAction.CallbackContext context);
     }
 }
