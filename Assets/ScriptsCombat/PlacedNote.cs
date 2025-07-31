@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 public class PlacedNote : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-
     //Allows note to be dragged
+
+    public NoteData noteData;
 
     [SerializeField] private Canvas canvas;
     private RectTransform rectTransform;
@@ -21,6 +22,19 @@ public class PlacedNote : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
         currentOccupiedSlot = GetComponentInParent<MusicSlot>();
         if (currentOccupiedSlot == null)
         {
+            originalPos = rectTransform.anchoredPosition;
+        }
+    }
+
+    public void Setup(NoteData data, Canvas mainCanvasReference)
+    {
+        noteData = data;
+        canvas = mainCanvasReference;
+
+        currentOccupiedSlot = GetComponentInParent<MusicSlot>();
+        if (currentOccupiedSlot == null)
+        {
+            transform.SetParent(canvas.transform);
             originalPos = rectTransform.anchoredPosition;
         }
     }

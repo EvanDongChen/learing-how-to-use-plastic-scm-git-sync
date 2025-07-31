@@ -7,21 +7,24 @@ using UnityEngine.UI;
 public class MusicSlot : MonoBehaviour, IDropHandler
 {
     public PlacedNote currentNote {  get; private set; }
+    public NoteData currentNoteData { get; private set; }
 
     private MusicSheetManager musicSheetManager;
     private Image slotImage;
+    public int slotIndex; 
 
     private void Awake()
     {
+        musicSheetManager = GetComponentInParent<MusicSheetManager>();
         //make sure it can find musicsheetmanager
         //check 1: check the parent
         if(musicSheetManager == null)
         {
-            musicSheetManager = GetComponentInParent<MusicSheetManager>();
+            Debug.LogError($"MusicSlot '{name}': MusicSheetManager not found in parent hierarchy. Ensure it's on a parent GameObject.", this);
         }
 
         //check again
-        if(musicSheetManager == null)
+        if (musicSheetManager == null)
         {
             Debug.LogError("MusicSlot: Cannot find MusicSheetManager");
         }
@@ -49,10 +52,15 @@ public class MusicSlot : MonoBehaviour, IDropHandler
                 }
 
                 currentNote = droppedNote;
-                currentNote.SetCurrentParent(this);
-                //tell the manager that note is placed
-                musicSheetManager.RegisterNotePlacement(this, true);
+                currentNoteData = droppedNote.noteData;
 
+                currentNote.SetCurrentParent(this);
+
+                //tell the manager that note is placed
+                if (musicSheetManager != null)
+                {
+                    musicSheetManager.RegisterNotePlacement(this, true);
+                }
             }
             
         }
@@ -62,9 +70,14 @@ public class MusicSlot : MonoBehaviour, IDropHandler
     public void ClearSlot()
     {
         currentNote = null;
-        if(musicSheetManager != null)
+        currentNoteData = null; // Make sure to clear the data too
+        if (musicSheetManager != null)
         {
             musicSheetManager.RegisterNotePlacement(this, false);
+        }
+        else
+        {
+            Debug.LogWarning($"MusicSlot '{name}': MusicSheetManager is null, cannot register slot clear.", this);
         }
         Debug.Log($"Slot {name} cleared.");
     }
@@ -74,6 +87,10 @@ public class MusicSlot : MonoBehaviour, IDropHandler
         if (slotImage != null)
         {
             slotImage.color = color;
+        }
+        else
+        {
+            Debug.LogWarning($"MusicSlot '{name}': slotImage is null, cannot set visual state. Check for missing Image component.", this);
         }
     }
 
