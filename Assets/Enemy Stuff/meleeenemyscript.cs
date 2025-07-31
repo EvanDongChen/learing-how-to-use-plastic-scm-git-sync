@@ -14,10 +14,13 @@ public class meleeenemyscript : MonoBehaviour
 
     private Vector3 dashDirection;
     private float stateTimer = 0f;
+    
+    private Animator animator;
 
     void Start()
     {
         currentState = State.Idle;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -25,6 +28,10 @@ public class meleeenemyscript : MonoBehaviour
         switch (currentState)
         {
             case State.Idle:
+                if (animator != null)
+                {
+                    animator.SetTrigger("Idle");
+                }
                 GameObject target = FindNearestPlayer();
                 if (target != null)
                 {
@@ -63,6 +70,10 @@ public class meleeenemyscript : MonoBehaviour
                 }
                 break;
             case State.Dashing:
+                if (animator != null)
+                {
+                    animator.SetTrigger("Dash");
+                }
                 transform.position += dashDirection * dashSpeed * Time.deltaTime;
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
@@ -73,6 +84,10 @@ public class meleeenemyscript : MonoBehaviour
                 break;
             case State.Recovering:
                 // Stand still
+                if (animator != null)
+                {
+                    animator.SetTrigger("Dazed");
+                }
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
@@ -80,6 +95,10 @@ public class meleeenemyscript : MonoBehaviour
                 }
                 break;
             case State.Dazed:
+                if (animator != null)
+                {
+                    animator.SetTrigger("Dazed");
+                }
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
