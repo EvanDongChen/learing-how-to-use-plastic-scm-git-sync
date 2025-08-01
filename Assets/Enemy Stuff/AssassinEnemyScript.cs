@@ -17,9 +17,12 @@ public class AssassinEnemyScript : MonoBehaviour
     private int maxDashes = 3;
     private Vector3 lastTeleportPos = Vector3.zero;
 
+    private Animator animator;
+
     void Start()
     {
         currentState = State.Idle;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -27,6 +30,7 @@ public class AssassinEnemyScript : MonoBehaviour
         switch (currentState)
         {
             case State.Idle:
+                
                 dashCount = 0;
                 GameObject target = FindNearestPlayer();
                 if (target != null)
@@ -40,7 +44,8 @@ public class AssassinEnemyScript : MonoBehaviour
                 {
                     Vector3 teleportPos = transform.position;
                     int attempts = 0;
-                    do {
+                    do
+                    {
                         Vector3 randomOffset = Random.insideUnitSphere;
                         randomOffset = randomOffset.normalized * teleportRadius;
                         teleportPos = tpTarget.transform.position + randomOffset;
@@ -55,6 +60,10 @@ public class AssassinEnemyScript : MonoBehaviour
                 else
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
             case State.Dashing:
@@ -67,11 +76,19 @@ public class AssassinEnemyScript : MonoBehaviour
                     {
                         currentState = State.Recovering;
                         stateTimer = recoveryDuration;
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("Dazed");
+                        }
                     }
                     else
                     {
                         currentState = State.Resting;
                         stateTimer = restDuration;
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("Dazed");
+                        }
                     }
                 }
                 break;
@@ -87,12 +104,20 @@ public class AssassinEnemyScript : MonoBehaviour
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
             case State.Dazed:
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                     currentState = State.Idle;
                 }
                 break;
@@ -118,7 +143,11 @@ public class AssassinEnemyScript : MonoBehaviour
 
     public void ApplyDazedEffect()
     {
+        if (animator != null)
+        {
+            animator.SetTrigger("Dazed");
+        }
         currentState = State.Dazed;
-        stateTimer = 3f; // Dazed state lasts for 1 second
+        stateTimer = 1f; // Dazed state lasts for 1 second
     }
 }

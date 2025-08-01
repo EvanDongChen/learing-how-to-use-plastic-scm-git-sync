@@ -28,10 +28,6 @@ public class meleeenemyscript : MonoBehaviour
         switch (currentState)
         {
             case State.Idle:
-                if (animator != null)
-                {
-                    animator.SetTrigger("Idle");
-                }
                 GameObject target = FindNearestPlayer();
                 if (target != null)
                 {
@@ -58,6 +54,10 @@ public class meleeenemyscript : MonoBehaviour
                 else
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
             case State.Windup:
@@ -67,43 +67,48 @@ public class meleeenemyscript : MonoBehaviour
                 {
                     currentState = State.Dashing;
                     stateTimer = dashDuration;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Dash");
+                    }
                 }
                 break;
             case State.Dashing:
-                if (animator != null)
-                {
-                    animator.SetTrigger("Dash");
-                }
                 transform.position += dashDirection * dashSpeed * Time.deltaTime;
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Recovering;
                     stateTimer = recoveryDuration;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Dazed");
+                    }
                 }
                 break;
             case State.Recovering:
                 // Stand still
-                if (animator != null)
-                {
-                    animator.SetTrigger("Dazed");
-                }
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
             case State.Dazed:
-                if (animator != null)
-                {
-                    animator.SetTrigger("Dazed");
-                }
                 stateTimer -= Time.deltaTime;
+
                 if (stateTimer <= 0f)
-                {
-                    currentState = State.Idle;
-                }
+                    {
+                        currentState = State.Idle;
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("Idle");
+                        }
+                    }
                 break;
         }
     }
@@ -127,6 +132,10 @@ public class meleeenemyscript : MonoBehaviour
 
     public void ApplyDazedEffect()
     {
+        if (animator != null)
+        {
+            animator.SetTrigger("Dazed");
+        }
         currentState = State.Dazed;
         stateTimer = 1f; // Dazed state lasts for 1 second
     }

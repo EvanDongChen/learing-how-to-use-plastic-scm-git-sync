@@ -11,7 +11,13 @@ public class BombEnemyScript : MonoBehaviour
     enum State { Idle, Dazed } // Added Dazed state
     private State currentState = State.Idle;
     private float stateTimer = 0f;
+    private Animator animator;
 
+    void Start()
+    {
+        currentState = State.Idle;
+        animator = GetComponent<Animator>();
+    }
     void Update()
     {
         if (exploded) return;
@@ -26,6 +32,10 @@ public class BombEnemyScript : MonoBehaviour
                     float dist = toPlayer.magnitude;
                     if (dist <= explosionRange)
                     {
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("Explode");
+                        }
                         Explode();
                     }
                     else
@@ -40,6 +50,11 @@ public class BombEnemyScript : MonoBehaviour
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
+
                 }
                 break;
         }
