@@ -1,34 +1,47 @@
 using UnityEngine;
+using TMPro;
 
 public class FloatingTextScript : MonoBehaviour
 {
-    public float lifetime = 2f;
-    public float moveSpeed = 1f;
-    private TextMesh textMesh;
-    private Color originalColor;
+    public float floatSpeed = 0.4f;  // Float upward speed
+    public float lifetime = 2f;      // Time before destruction
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private TextMeshPro textMesh;
+    private Color originalColor;
+    private float timer = 0f;
+
+    void Awake()
     {
-        textMesh = GetComponent<TextMesh>();
-        if (textMesh != null)
-        {
-            originalColor = textMesh.color;
-        }
-        Destroy(gameObject, lifetime); // Destroy after lifetime
+        textMesh = GetComponent<TextMeshPro>();
+        originalColor = textMesh.color;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Move the text upwards
-        transform.position += Vector3.up * moveSpeed * Time.deltaTime;
+        // Move upward
+        transform.position += Vector3.up * floatSpeed * Time.deltaTime;
 
-        // Fade out the text
-        if (textMesh != null)
+        // Fade out over lifetime
+        timer += Time.deltaTime;
+        float alpha = Mathf.Lerp(originalColor.a, 0, timer / lifetime);
+        Color c = originalColor;
+        c.a = alpha;
+        textMesh.color = c;
+
+        // Destroy after lifetime ends
+        if (timer >= lifetime)
         {
-            float fadeAmount = Mathf.Clamp01(lifetime - Time.timeSinceLevelLoad);
-            textMesh.color = new Color(originalColor.r, originalColor.g, originalColor.b, fadeAmount);
+            Destroy(gameObject);
         }
+    }
+
+    public void SetText(string text, Color color)
+    {
+        if (textMesh == null)
+            textMesh = GetComponent<TextMeshPro>();
+
+        textMesh.text = text;
+        originalColor = color;
+        textMesh.color = originalColor;
     }
 }

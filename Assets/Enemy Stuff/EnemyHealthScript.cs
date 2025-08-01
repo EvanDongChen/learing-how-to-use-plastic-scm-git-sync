@@ -1,3 +1,4 @@
+using UnityEditor.UI;
 using UnityEngine;
 
 public class EnemyHealthScript : MonoBehaviour
@@ -7,6 +8,9 @@ public class EnemyHealthScript : MonoBehaviour
     public string lastElementHit;
     public GameObject reactionManager; // Assign ReactionManager in the inspector
     public GameObject textNumberManager; // Assign TextNumberManager in the inspector
+
+    public GameObject damageTextPrefab;       // Assign your floatingText prefab here
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -70,19 +74,29 @@ public class EnemyHealthScript : MonoBehaviour
                 if (reactionManager != null)
                 {
                     ReactionManager rm = reactionManager.GetComponent<ReactionManager>();
+                    TextNumberManager tnm = textNumberManager.GetComponent<TextNumberManager>();
+
                     if (rm != null)
                     {
                         if ((lastElementHit == "Water" && element == "Fire") || (lastElementHit == "Fire" && element == "Water"))
                         {
                             rm.WaterFireReaction();
+                            damage *= 2;
+                            tnm.SpawnText("VAPORIZE", Color.purple, transform.position);
+
                         }
-                        else if ((lastElementHit == "Fire" && element == "Lightning") || (lastElementHit == "Lightning" && element == "Fire"))
+                        else if ((lastElementHit == "Fire" && element == "Lightining") || (lastElementHit == "Lightining" && element == "Fire"))
                         {
                             rm.FireLightningReaction();
+                            tnm.SpawnText("COMBUSTION", Color.orange, transform.position);
+
                         }
-                        else if ((lastElementHit == "Water" && element == "Lightning") || (lastElementHit == "Lightning" && element == "Water"))
+                        else if ((lastElementHit == "Water" && element == "Lightining") || (lastElementHit == "Lightining" && element == "Water"))
                         {
                             rm.WaterLightningReaction();
+                            tnm.SpawnText("ELECTROFLOW", Color.greenYellow, transform.position);
+
+
                         }
                     }
                 }
@@ -133,10 +147,10 @@ public class EnemyHealthScript : MonoBehaviour
                 else if (element == "Water") damageColor = Color.blue;
                 else if (element == "Lightning") damageColor = Color.yellow;
 
-                tnm.SpawnNumber(damage, damageColor, transform.position);
+                tnm.SpawnText(damage.ToString(), damageColor, transform.position);
             }
         }
-
+          
         currentHealth -= damage;
         Debug.Log($"Enemy took {damage} damage from {element}. Current health: {currentHealth}");
 

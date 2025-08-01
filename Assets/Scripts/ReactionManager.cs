@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ReactionManager : MonoBehaviour
 {
+
+    public GameObject CombustionEffect; // Assign the effect prefab in the inspector
+    public GameObject ElectroflowEffect; // Assign the effect prefab in the inspector
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
