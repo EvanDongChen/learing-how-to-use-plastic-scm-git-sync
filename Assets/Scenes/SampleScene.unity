@@ -459,14 +459,13 @@ GameObject:
   - component: {fileID: 567062174}
   - component: {fileID: 567062173}
   - component: {fileID: 567062172}
-  - component: {fileID: 567062175}
   m_Layer: 0
   m_Name: MeleeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &567062169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,28 +577,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
---- !u!95 &567062175
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567062168}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2e2c3dee00573d04b96ce912e6d4b418, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &573546361
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,7 +949,7 @@ Transform:
   m_GameObject: {fileID: 789734256}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.018566411, w: -0.9998277}
-  m_LocalPosition: {x: 0.8699999, y: -0.495, z: 0.168}
+  m_LocalPosition: {x: 0.04, y: 0.05, z: 0.168}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1756,7 +1733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1458669108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,7 +1973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1540833116
 MonoBehaviour:
   m_ObjectHideFlags: 0
