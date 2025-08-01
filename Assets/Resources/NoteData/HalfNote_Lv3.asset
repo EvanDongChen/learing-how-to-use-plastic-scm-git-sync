@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e194743fb6d357640b4e49b167e408fa, type: 3}
-  m_Name: HalfNote
+  m_Name: HalfNote_Lv3
   m_EditorClassIdentifier: 
-  noteName: Half Note
+  noteName: HalfNote
   rarity: 1
-  level: 1
+  level: 3
   noteDuration: 2
   element: 0
-  attributes: 00000000
+  attributes: 

@@ -55,4 +55,18 @@ public class NoteData : ScriptableObject
         Water,
         Lightining
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is NoteData other)
+        {
+            return noteName == other.noteName && level == other.level;
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return (noteName + level).GetHashCode();
+    }
 }

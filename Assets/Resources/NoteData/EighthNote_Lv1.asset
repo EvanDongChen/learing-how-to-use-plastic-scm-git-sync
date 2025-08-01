@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e194743fb6d357640b4e49b167e408fa, type: 3}
-  m_Name: EighthNote
+  m_Name: EighthNote_Lv1
   m_EditorClassIdentifier: 
-  noteName: Eighth Note
+  noteName: EighthNote
   rarity: 1
   level: 1
   noteDuration: 0.5
