@@ -18,3 +18,4 @@ MonoBehaviour:
   noteDuration: 1
   element: 0
   attributes: 
+  icon: {fileID: 7267170179426877965, guid: 8243079449d98f747b784622ae75a6db, type: 3}
