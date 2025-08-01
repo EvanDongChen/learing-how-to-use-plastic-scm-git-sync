@@ -87,13 +87,13 @@ public class EnemyHealthScript : MonoBehaviour
                         }
                         else if ((lastElementHit == "Fire" && element == "Lightining") || (lastElementHit == "Lightining" && element == "Fire"))
                         {
-                            rm.FireLightningReaction();
+                            rm.FireLightningReaction(transform.position);
                             tnm.SpawnText("COMBUSTION", Color.orange, transform.position);
 
                         }
                         else if ((lastElementHit == "Water" && element == "Lightining") || (lastElementHit == "Lightining" && element == "Water"))
                         {
-                            rm.WaterLightningReaction();
+                            rm.WaterLightningReaction(transform.position);
                             tnm.SpawnText("ELECTROFLOW", Color.greenYellow, transform.position);
 
 

@@ -22,13 +22,16 @@ public class ReactionManager : MonoBehaviour
         Debug.Log("Water + Fire reaction triggered!");
     }
 
-    public void FireLightningReaction()
+    public void FireLightningReaction(Vector3 spawnPos)
     {
         Debug.Log("Fire + Lightning reaction triggered!");
+        Instantiate(CombustionEffect, spawnPos, Quaternion.identity);
     }
 
-    public void WaterLightningReaction()
+    public void WaterLightningReaction(Vector3 spawnPos)
     {
         Debug.Log("Water + Lightning reaction triggered!");
+                Instantiate(ElectroflowEffect, spawnPos, Quaternion.identity);
+
     }
 }
