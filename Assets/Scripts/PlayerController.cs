@@ -15,6 +15,11 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerInputActions inputActions;
     private StatsManager statsManager;
+    public Animator animator; // Re-added animator reference
+
+    // Add your effect reference here (example: ParticleSystem)
+    public ParticleSystem moveEffect;
+    // If using GameObject: public GameObject moveEffect;
 
     private bool isDashing = false;
     private float dashTimeRemaining = 0f;
@@ -27,7 +32,6 @@ public class PlayerMovement : MonoBehaviour
         inputActions = new PlayerInputActions();
         inputActions.Player.Enable();
         rb.freezeRotation = true;
-
 
         statsManager = GetComponent<StatsManager>();
         if (statsManager == null)
@@ -55,22 +59,22 @@ public class PlayerMovement : MonoBehaviour
     private void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+        UpdateAnimationState(); // Update animation state on movement
     }
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        
         if (!isDashing && dashCooldownTimer <= 0f && moveInput != Vector2.zero)
         {
             isDashing = true;
             dashTimeRemaining = dashDuration;
             dashDirection = moveInput.normalized;
+            animator.SetTrigger("Dodge"); // Trigger dodge animation
         }
     }
 
     private void FixedUpdate()
     {
-        
         if (dashCooldownTimer > 0f)
         {
             dashCooldownTimer -= Time.fixedDeltaTime;
@@ -91,5 +95,59 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = moveInput * statsManager.moveSpeed;
         }
+
+        UpdateAnimationState();
+    }
+
+    private void UpdateAnimationState()
+    {
+        float movementThreshold = 0.1f;
+
+        bool isMoving = !isDashing && rb.linearVelocity.magnitude > movementThreshold;
+
+        if (isDashing)
+        {
+            animator.SetBool("IsRunning", false);
+            animator.ResetTrigger("WalkLeft");
+            animator.ResetTrigger("WalkRight");
+        }
+        else if (isMoving)
+        {
+            animator.SetBool("IsRunning", true);
+
+            if (moveInput.x > 0.01f)
+            {
+                animator.SetTrigger("WalkRight");
+                animator.ResetTrigger("WalkLeft");
+            }
+            else if (moveInput.x < -0.01f)
+            {
+                animator.SetTrigger("WalkLeft");
+                animator.ResetTrigger("WalkRight");
+            }
+        }
+        else
+        {
+            animator.SetBool("IsRunning", false);
+            animator.ResetTrigger("WalkLeft");
+            animator.ResetTrigger("WalkRight");
+        }
+
+        // Handle move effect
+        if (moveEffect != null)
+        {
+            if (isMoving)
+            {
+                if (!moveEffect.isPlaying)
+                    moveEffect.Play();
+            }
+            else
+            {
+                if (moveEffect.isPlaying)
+                    moveEffect.Stop();
+            }
+        }
+        // If using GameObject:
+        // if (moveEffect != null) moveEffect.SetActive(isMoving);
     }
 }
