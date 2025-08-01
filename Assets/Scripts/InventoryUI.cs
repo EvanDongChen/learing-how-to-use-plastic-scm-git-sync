@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IDropHandler
 {
     public GameObject draggableNotePrefab;
     public Transform slotContainer;
@@ -31,6 +32,19 @@ public class InventoryUI : MonoBehaviour
             // Get the DraggableNote script and give it the data
             DraggableNote note = noteGO.GetComponent<DraggableNote>();
             note.noteData = noteData;
+        }
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        PlacedNote placedNote = eventData.pointerDrag.GetComponent<PlacedNote>();
+        if (placedNote != null)
+        {
+            InventoryManager.Instance.AddNote(placedNote.noteData);
+
+            placedNote.currentBar.RemoveNote(placedNote);
+
+            Destroy(placedNote.gameObject);
         }
     }
 

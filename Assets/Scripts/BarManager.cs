@@ -11,6 +11,7 @@ public class BarManager : MonoBehaviour, IDropHandler
     //to make all the note duration values whole numbers
     public int scalingFactor = 2;
     public int totalTicksInBar = 4;
+    public GameObject noteOnBarPrefab;
 
     private List<PlacedNote> notesInBar = new List<PlacedNote>();
     private RectTransform barRect;
@@ -38,6 +39,8 @@ public class BarManager : MonoBehaviour, IDropHandler
             {
                 AddNote(draggedNote.noteData);
 
+                InventoryManager.Instance.RemoveNote(draggedNote.noteData);
+
                 Destroy(draggedNote.gameObject);
             }
         }
@@ -54,11 +57,11 @@ public class BarManager : MonoBehaviour, IDropHandler
     //Add note to list and redraw everything
     private void AddNote(NoteData newNoteData)
     {
-        GameObject noteOnBar = new GameObject(newNoteData.noteName, typeof(RectTransform));
-        noteOnBar.transform.SetParent(this.transform, false);
+        GameObject noteOnBarGO = Instantiate(noteOnBarPrefab, this.transform);
+        noteOnBarGO.name = newNoteData.noteName;
 
         // Create and set up a PlacedNote component to hold the data on the bar
-        PlacedNote placedNote = noteOnBar.AddComponent<PlacedNote>();
+        PlacedNote placedNote = noteOnBarGO.GetComponent<PlacedNote>();
         placedNote.noteData = newNoteData;
         placedNote.currentBar = this;
 

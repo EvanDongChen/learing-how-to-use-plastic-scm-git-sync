@@ -28,12 +28,6 @@ public class PlacedNote : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         originalPos = GetComponent<RectTransform>().anchoredPosition;
 
-        if (currentBar != null)
-        {
-            currentBar.RemoveNote(this);
-            currentBar = null;
-        }
-
         //reparent the main canvas
         transform.SetParent(canvas.transform);
         transform.SetAsLastSibling();
