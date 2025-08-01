@@ -4,11 +4,37 @@ using UnityEngine.UI;
 
 public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public NoteData noteData;
+    private NoteData noteData;
     public Image icon;
+
 
     private Transform originalParent;
     private CanvasGroup canvasGroup;
+
+    private void Start()
+    {
+        SetupNoteVisual();
+    }
+
+    private void SetupNoteVisual()
+    {
+        if (icon != null && noteData != null)
+        {
+            icon.sprite = noteData.icon;
+            icon.color = GetColorForElement(noteData.element);
+        }
+    }
+
+    Color GetColorForElement(NoteData.Elements element)
+    {
+        return element switch
+        {
+            NoteData.Elements.Fire => Color.red,
+            NoteData.Elements.Water => Color.blue,
+            NoteData.Elements.Lightining => Color.yellow,
+            _ => Color.white
+        };
+    }
 
     private void Awake()
     {
