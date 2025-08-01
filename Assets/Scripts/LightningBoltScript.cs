@@ -9,16 +9,21 @@ public class LightningBoltScript : MonoBehaviour
     public float speed = 5f;
     public bool searching = false;
     public int hitsleft;
-    bool canDamage = true;
     public Rigidbody2D rb;
+    private Collider2D boltCollider;
 
     int damage = 1;
     public NoteData.Elements element = NoteData.Elements.Lightining;
+    private float initialDisableTime = 0.1f; // Time to disable collider after spawn
+
     void Start()
     {
         searching = false;
         hitsleft = 4;
          rb = GetComponent<Rigidbody2D>();
+        boltCollider = GetComponent<Collider2D>();
+        if (boltCollider != null)
+            StartCoroutine(DisableColliderBriefly());
     }
     
 
@@ -59,7 +64,6 @@ public class LightningBoltScript : MonoBehaviour
             }
             searching = false;
             hitsleft--;
-
         }
     }
     private void move()
@@ -98,6 +102,9 @@ public class LightningBoltScript : MonoBehaviour
         float moveAwayTime = 0.5f;
         float elapsedTime = 0f;
 
+        if (boltCollider != null)
+            boltCollider.enabled = false; // Disable collider to avoid getting stuck
+
         while (elapsedTime < moveAwayTime)
         {
             transform.position += awayDirection * speed * Time.deltaTime;
@@ -105,6 +112,16 @@ public class LightningBoltScript : MonoBehaviour
             yield return null;
         }
 
+        if (boltCollider != null)
+            boltCollider.enabled = true; // Re-enable collider
+
         searching = true; // Resume searching after moving away
+    }
+
+    private IEnumerator DisableColliderBriefly()
+    {
+        boltCollider.enabled = false;
+        yield return new WaitForSeconds(initialDisableTime);
+        boltCollider.enabled = true;
     }
 }
