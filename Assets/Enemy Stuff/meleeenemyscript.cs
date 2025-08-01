@@ -20,7 +20,7 @@ public class meleeenemyscript : MonoBehaviour
     void Start()
     {
         currentState = State.Idle;
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()

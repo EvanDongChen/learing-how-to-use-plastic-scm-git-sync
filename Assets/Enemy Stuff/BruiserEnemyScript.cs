@@ -8,6 +8,14 @@ public class BruiserEnemyScript : MonoBehaviour
     State currentState = State.Idle;
     float stateTimer = 0f;
 
+    private Animator animator;
+
+    void Start()
+    {
+        currentState = State.Idle;
+        animator = GetComponentInChildren<Animator>();
+    }
+
     void Update()
     {
         switch (currentState)
@@ -18,6 +26,10 @@ public class BruiserEnemyScript : MonoBehaviour
                 {
                     Vector3 toPlayer = target.transform.position - transform.position;
                     transform.position += toPlayer.normalized * walkSpeed * Time.deltaTime;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Run");
+                    }
                 }
                 break;
 
@@ -26,6 +38,10 @@ public class BruiserEnemyScript : MonoBehaviour
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }   
                 }
                 break;
         }
@@ -50,6 +66,10 @@ public class BruiserEnemyScript : MonoBehaviour
 
     public void ApplyDazedEffect()
     {
+        if (animator != null)
+        {
+            animator.SetTrigger("Dazed");
+        }
         currentState = State.Dazed;
         stateTimer = 1f; // Dazed state lasts for 1 second
     }
