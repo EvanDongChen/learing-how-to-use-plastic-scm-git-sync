@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class meleeenemyscript : MonoBehaviour
 {
-    enum State { Idle, Walking, Windup, Dashing, Recovering, Dazed } // Added Dazed state
+    enum State { Idle, Walking, Windup, Dashing, Recovering, Dazed }
     State currentState = State.Idle;
 
     public float walkSpeed = 3f;
@@ -14,10 +14,12 @@ public class meleeenemyscript : MonoBehaviour
 
     private Vector3 dashDirection;
     private float stateTimer = 0f;
+    private Animator animator;
 
     void Start()
     {
         currentState = State.Idle;
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -29,63 +31,91 @@ public class meleeenemyscript : MonoBehaviour
                 if (target != null)
                 {
                     currentState = State.Walking;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }   
                 }
                 break;
+
             case State.Walking:
                 GameObject walkTarget = FindNearestPlayer();
                 if (walkTarget != null)
                 {
                     Vector3 toPlayer = walkTarget.transform.position - transform.position;
                     float dist = toPlayer.magnitude;
+
+                    Flip(toPlayer.x); // Face player
+
                     if (dist <= dashTriggerDistance)
                     {
                         dashDirection = toPlayer.normalized;
                         currentState = State.Windup;
                         stateTimer = windupDuration;
+                        animator?.SetTrigger("Idle");
                     }
                     else
                     {
                         transform.position += toPlayer.normalized * walkSpeed * Time.deltaTime;
+                        animator?.SetTrigger("Run");
                     }
                 }
                 else
                 {
                     currentState = State.Idle;
+                    animator?.SetTrigger("Idle");
                 }
                 break;
+
             case State.Windup:
-                // Stand still, windup before dash
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Dashing;
                     stateTimer = dashDuration;
+                    animator?.SetTrigger("Dash");
                 }
                 break;
+
             case State.Dashing:
                 transform.position += dashDirection * dashSpeed * Time.deltaTime;
                 stateTimer -= Time.deltaTime;
+
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Recovering;
                     stateTimer = recoveryDuration;
+                    animator?.SetTrigger("Dazed");
                 }
                 break;
+
             case State.Recovering:
-                // Stand still
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Idle;
+                    animator?.SetTrigger("Idle");
                 }
                 break;
+
             case State.Dazed:
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Idle;
+                    animator?.SetTrigger("Idle");
                 }
                 break;
+        }
+    }
+
+    void Flip(float xDir)
+    {
+        if (xDir != 0)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Sign(xDir) * Mathf.Abs(scale.x);
+            transform.localScale = scale;
         }
     }
 
@@ -108,9 +138,8 @@ public class meleeenemyscript : MonoBehaviour
 
     public void ApplyDazedEffect()
     {
+        animator?.SetTrigger("Dazed");
         currentState = State.Dazed;
-        stateTimer = 1f; // Dazed state lasts for 1 second
+        stateTimer = 1f;
     }
-
-   
 }

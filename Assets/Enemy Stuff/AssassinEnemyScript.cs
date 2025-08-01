@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AssassinEnemyScript : MonoBehaviour
 {
-    enum State { Idle, Teleporting, Dashing, Recovering, Resting, Dazed } // Added Dazed state
+    enum State { Idle, Teleporting, Dashing, Recovering, Resting, Dazed }
     State currentState = State.Idle;
 
     public float dashSpeed = 10f;
@@ -17,9 +17,14 @@ public class AssassinEnemyScript : MonoBehaviour
     private int maxDashes = 3;
     private Vector3 lastTeleportPos = Vector3.zero;
 
+    private Animator animator;
+    private Transform spriteTransform; 
+
     void Start()
     {
         currentState = State.Idle;
+        animator = GetComponentInChildren<Animator>();
+        spriteTransform = animator.transform; 
     }
 
     void Update()
@@ -34,32 +39,42 @@ public class AssassinEnemyScript : MonoBehaviour
                     currentState = State.Teleporting;
                 }
                 break;
+
             case State.Teleporting:
                 GameObject tpTarget = FindNearestPlayer();
                 if (tpTarget != null)
                 {
                     Vector3 teleportPos = transform.position;
                     int attempts = 0;
-                    do {
+                    do
+                    {
                         Vector3 randomOffset = Random.insideUnitSphere;
+                        randomOffset.z = 0f; 
                         randomOffset = randomOffset.normalized * teleportRadius;
                         teleportPos = tpTarget.transform.position + randomOffset;
                         attempts++;
                     } while ((attempts < 10) && (Vector3.Distance(teleportPos, lastTeleportPos) < teleportRadius * 0.5f));
+
                     transform.position = teleportPos;
                     lastTeleportPos = teleportPos;
                     dashDirection = (tpTarget.transform.position - transform.position).normalized;
+
+                    FlipSprite(dashDirection.x); 
+
                     currentState = State.Dashing;
                     stateTimer = dashDuration;
                 }
                 else
                 {
                     currentState = State.Idle;
+                    animator?.SetTrigger("Idle");
                 }
                 break;
+
             case State.Dashing:
                 transform.position += dashDirection * dashSpeed * Time.deltaTime;
                 stateTimer -= Time.deltaTime;
+
                 if (stateTimer <= 0f)
                 {
                     dashCount++;
@@ -67,14 +82,17 @@ public class AssassinEnemyScript : MonoBehaviour
                     {
                         currentState = State.Recovering;
                         stateTimer = recoveryDuration;
+                        animator?.SetTrigger("Dazed");
                     }
                     else
                     {
                         currentState = State.Resting;
                         stateTimer = restDuration;
+                        animator?.SetTrigger("Dazed");
                     }
                 }
                 break;
+
             case State.Recovering:
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
@@ -82,17 +100,21 @@ public class AssassinEnemyScript : MonoBehaviour
                     currentState = State.Teleporting;
                 }
                 break;
+
             case State.Resting:
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
+                    animator?.SetTrigger("Idle");
                     currentState = State.Idle;
                 }
                 break;
+
             case State.Dazed:
                 stateTimer -= Time.deltaTime;
                 if (stateTimer <= 0f)
                 {
+                    animator?.SetTrigger("Idle");
                     currentState = State.Idle;
                 }
                 break;
@@ -104,6 +126,7 @@ public class AssassinEnemyScript : MonoBehaviour
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject nearest = null;
         float minDist = Mathf.Infinity;
+
         foreach (GameObject player in players)
         {
             float dist = Vector3.Distance(transform.position, player.transform.position);
@@ -118,7 +141,18 @@ public class AssassinEnemyScript : MonoBehaviour
 
     public void ApplyDazedEffect()
     {
+        animator?.SetTrigger("Dazed");
         currentState = State.Dazed;
-        stateTimer = 3f; // Dazed state lasts for 1 second
+        stateTimer = 1f;
+    }
+
+    void FlipSprite(float directionX)
+    {
+        if (spriteTransform != null)
+        {
+            Vector3 scale = spriteTransform.localScale;
+            scale.x = Mathf.Sign(directionX) * Mathf.Abs(scale.x);
+            spriteTransform.localScale = scale;
+        }
     }
 }

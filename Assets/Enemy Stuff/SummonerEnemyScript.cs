@@ -13,10 +13,12 @@ public class SummonerEnemyScript : MonoBehaviour
 
     private float fireTimer = 0f;
     private float stateTimer = 0f; // Timer for Dazed state
+    private Animator animator;
 
     void Start()
     {
         currentState = State.Idle;
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -28,6 +30,10 @@ public class SummonerEnemyScript : MonoBehaviour
                 if (target != null)
                 {
                     currentState = State.Walking;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
             case State.Walking:
@@ -40,6 +46,10 @@ public class SummonerEnemyScript : MonoBehaviour
                     {
                         currentState = State.Attacking;
                         fireTimer = 0f;
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("Summon");
+                        }
                     }
                     else
                     {
@@ -49,6 +59,10 @@ public class SummonerEnemyScript : MonoBehaviour
                 else
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
             case State.Attacking:
@@ -60,6 +74,10 @@ public class SummonerEnemyScript : MonoBehaviour
                     if (dist > attackRange)
                     {
                         currentState = State.Walking;
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("Idle");
+                        }
                     }
                     else
                     {
@@ -74,6 +92,14 @@ public class SummonerEnemyScript : MonoBehaviour
                 else
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                        if (spawnPoint != null)
+                        {
+                            SpawnMinion(Vector3.zero); // Spawn minions at spawn point if no target
+                        }
+                    }
                 }
                 break;
             case State.Dazed:
@@ -81,6 +107,10 @@ public class SummonerEnemyScript : MonoBehaviour
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
         }
@@ -120,6 +150,10 @@ public class SummonerEnemyScript : MonoBehaviour
 
     public void ApplyDazedEffect()
     {
+        if (animator != null)
+        {
+            animator.SetTrigger("Dazed");
+        }
         currentState = State.Dazed;
         stateTimer = 1f; // Dazed state lasts for 1 second
     }

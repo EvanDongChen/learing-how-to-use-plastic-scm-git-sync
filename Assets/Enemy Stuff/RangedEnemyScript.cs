@@ -13,10 +13,12 @@ public class RangedEnemyScript : MonoBehaviour
 
     private float fireTimer = 0f;
     private float stateTimer = 0f; // Timer for Dazed state
+    private Animator animator;
 
     void Start()
     {
         currentState = State.Idle;
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -40,6 +42,10 @@ public class RangedEnemyScript : MonoBehaviour
                     {
                         currentState = State.Attacking;
                         fireTimer = 0f;
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("Shoot");
+                        }
                     }
                     else
                     {
@@ -49,6 +55,10 @@ public class RangedEnemyScript : MonoBehaviour
                 else
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
             case State.Attacking:
@@ -74,6 +84,10 @@ public class RangedEnemyScript : MonoBehaviour
                 else
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
             case State.Dazed:
@@ -81,6 +95,10 @@ public class RangedEnemyScript : MonoBehaviour
                 if (stateTimer <= 0f)
                 {
                     currentState = State.Idle;
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Idle");
+                    }
                 }
                 break;
         }
@@ -118,6 +136,11 @@ public class RangedEnemyScript : MonoBehaviour
 
     public void ApplyDazedEffect()
     {
+        Debug.Log("Ranged Enemy Dazed");
+        if (animator != null)
+        {
+            animator.SetTrigger("Dazed");
+        }
         currentState = State.Dazed;
         stateTimer = 1f; // Dazed state lasts for 1 second
     }

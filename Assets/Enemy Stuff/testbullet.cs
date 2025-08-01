@@ -21,10 +21,10 @@ public class testbullet : MonoBehaviour
             var enemyScript = collision.gameObject.GetComponent<MonoBehaviour>();
             if (enemyScript != null)
             {
-                var method = enemyScript.GetType().GetMethod("ApplyTemporarySlow");
+                var method = enemyScript.GetType().GetMethod("ApplyDazedEffect");
                 if (method != null)
                 {
-                    method.Invoke(enemyScript, new object[] { 3f }); // Call ApplySlowedEffect dynamically
+                    method.Invoke(enemyScript, null); // Call ApplyDazedEffect dynamically
                 }
             }
 
