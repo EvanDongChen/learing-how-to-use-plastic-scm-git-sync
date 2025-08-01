@@ -140,10 +140,10 @@ TextureImporter:
       name: bard-Sheet_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 0
-        width: 21
-        height: 31
+        x: 6
+        y: 1
+        width: 19
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: bard-Sheet_1
       rect:
         serializedVersion: 2
-        x: 36
-        y: 0
-        width: 23
-        height: 32
+        x: 37
+        y: 1
+        width: 21
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,10 +184,10 @@ TextureImporter:
       name: bard-Sheet_2
       rect:
         serializedVersion: 2
-        x: 68
-        y: 1
-        width: 22
-        height: 30
+        x: 69
+        y: 2
+        width: 20
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,9 +206,9 @@ TextureImporter:
       name: bard-Sheet_3
       rect:
         serializedVersion: 2
-        x: 101
-        y: 0
-        width: 23
+        x: 102
+        y: 1
+        width: 21
         height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -228,10 +228,10 @@ TextureImporter:
       name: bard-Sheet_4
       rect:
         serializedVersion: 2
-        x: 131
-        y: 0
-        width: 25
-        height: 32
+        x: 132
+        y: 1
+        width: 23
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,9 +250,9 @@ TextureImporter:
       name: bard-Sheet_5
       rect:
         serializedVersion: 2
-        x: 164
-        y: 0
-        width: 24
+        x: 165
+        y: 1
+        width: 22
         height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -272,10 +272,10 @@ TextureImporter:
       name: bard-Sheet_6
       rect:
         serializedVersion: 2
-        x: 195
-        y: 0
-        width: 26
-        height: 32
+        x: 196
+        y: 1
+        width: 24
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,10 +294,10 @@ TextureImporter:
       name: bard-Sheet_7
       rect:
         serializedVersion: 2
-        x: 226
-        y: 0
-        width: 26
-        height: 32
+        x: 227
+        y: 1
+        width: 24
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -316,10 +316,10 @@ TextureImporter:
       name: bard-Sheet_8
       rect:
         serializedVersion: 2
-        x: 260
-        y: 0
-        width: 24
-        height: 31
+        x: 261
+        y: 1
+        width: 22
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -338,7 +338,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 87d8ab599132d444c982d0403c9a3a51
     internalID: 0
     vertices: []
     indices: 
@@ -346,7 +346,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       bard-Sheet_0: 5176335545385804268
       bard-Sheet_1: 5973735077656288722
