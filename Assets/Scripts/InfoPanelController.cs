@@ -9,6 +9,7 @@ public class InfoPanelController : MonoBehaviour
 
     public TextMeshProUGUI nameAndLevelText;
     public TextMeshProUGUI rarityText;
+    public TextMeshProUGUI noteDurationText;
     public Image noteIcon;
     public Transform attributesContainer;
     public GameObject attributeTagPrefab;
@@ -52,6 +53,11 @@ public class InfoPanelController : MonoBehaviour
         noteIcon.color = GetColorForElement(data.element);
 
         rarityText.text = new string('*', data.rarity);
+
+        if (noteDurationText != null)
+        {
+            noteDurationText.text = $"Duration: {data.noteDuration} Beat(s)";
+        }
 
         foreach (Transform child in attributesContainer) 
         {

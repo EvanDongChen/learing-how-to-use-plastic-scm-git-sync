@@ -15,7 +15,7 @@ MonoBehaviour:
   noteName: SixteenthNote
   rarity: 1
   level: 1
-  noteDuration: 0.25
+  noteDuration: 0.5
   element: 0
   attributes: 
   icon: {fileID: -5045229053359514266, guid: 8243079449d98f747b784622ae75a6db, type: 3}

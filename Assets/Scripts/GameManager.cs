@@ -199,6 +199,12 @@ public class GameManager : MonoBehaviour
             Debug.Log("DEBUG: Changing to Round End State");
             updateGameState(GameState.RoundEnd);
         }
+
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            Debug.Log("DEBUG: Changing to Round Start State");
+            updateGameState(GameState.RoundStart);
+        }
     }
 
 
