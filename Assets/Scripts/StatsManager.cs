@@ -23,6 +23,7 @@ public class StatsManager : MonoBehaviour
     private float buffTimer = 0f;
     private Coroutine buffCoroutine;
 
+    public bool IsDead { get; private set; } = false;
     void Awake()
     {
         moveSpeed = baseMoveSpeed;
@@ -87,7 +88,8 @@ public class StatsManager : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("Player has died.");
-            //TODO: die logic
+            IsDead = true;
+            GameManager.Instance.updateGameState(GameState.Lose);
         }
     }
 
