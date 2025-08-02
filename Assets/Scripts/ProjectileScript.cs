@@ -78,6 +78,8 @@ public class ProjectileScript : MonoBehaviour
         rarity = data.rarity;
         level = data.level;
 
+        damage = level; // Set damage equal to level
+
         // Set color based on element
         Color color = Color.white;
         switch (element)
@@ -118,7 +120,11 @@ public class ProjectileScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             int finalDamage = GetModifiedDamage(damage);
-            //now apply damage to enemy
+            EnemyHealthScript enemyHealth = collision.gameObject.GetComponent<EnemyHealthScript>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(finalDamage, element.ToString());
+            }
 
             ApplyPlayerEffects(PlayerStatManager, finalDamage);
 

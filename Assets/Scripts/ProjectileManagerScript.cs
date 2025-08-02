@@ -17,7 +17,7 @@ public class ProjectileManagerScript : MonoBehaviour
         fireNoteData.noteDuration = 2f;
         fireNoteData.rarity = 1;
         fireNoteData.level = 1;
-        fireNoteData.attributes = new System.Collections.Generic.List<NoteData.AttributeType> { NoteData.AttributeType.Reverb };
+        fireNoteData.attributes = new System.Collections.Generic.List<NoteData.AttributeType> { NoteData.AttributeType.Forte };
 
         waterNoteData = ScriptableObject.CreateInstance<NoteData>();
         waterNoteData.noteName = "Water Note";
@@ -25,19 +25,16 @@ public class ProjectileManagerScript : MonoBehaviour
         waterNoteData.noteDuration = 2f;
         waterNoteData.rarity = 1;
         waterNoteData.level = 1;
-        waterNoteData.attributes = new System.Collections.Generic.List<NoteData.AttributeType> { NoteData.AttributeType.Staccato };
+        waterNoteData.attributes = new System.Collections.Generic.List<NoteData.AttributeType> {  };
 
         lightningNoteData = ScriptableObject.CreateInstance<NoteData>();
         lightningNoteData.noteName = "MultiShot Note";
-        lightningNoteData.element = NoteData.Elements.Fire;
+        lightningNoteData.element = NoteData.Elements.Lightining;
         lightningNoteData.noteDuration = 2f;
         lightningNoteData.rarity = 1;
         lightningNoteData.level = 1;
         lightningNoteData.attributes = new System.Collections.Generic.List<NoteData.AttributeType> {
-            NoteData.AttributeType.Staccato,
-            NoteData.AttributeType.Trio,
-            NoteData.AttributeType.Quartet,
-            NoteData.AttributeType.Quintet
+          
         };
         int expectedCount = 1;
         expectedCount += 1; // Staccato
