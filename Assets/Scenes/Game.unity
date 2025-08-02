@@ -672,6 +672,7 @@ MonoBehaviour:
     note: {fileID: 11400000, guid: b8e0f812f397f374d9518a8740211840, type: 2}
   cardPrefab: {fileID: 2525945952434879721, guid: 8118a1fd1a9c3454db22161400b76516, type: 3}
   shopPanel: {fileID: 33315326}
+  shopCanvas: {fileID: 1362113541}
 --- !u!4 &486560747
 Transform:
   m_ObjectHideFlags: 0
@@ -705,7 +706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &518124983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2094,10 +2095,10 @@ RectTransform:
   - {fileID: 2132559389}
   m_Father: {fileID: 672113487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -260}
+  m_SizeDelta: {x: 400, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1000428554
 MonoBehaviour:
@@ -2514,10 +2515,10 @@ RectTransform:
   - {fileID: 2044602135}
   m_Father: {fileID: 672113487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -40}
+  m_SizeDelta: {x: 400, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1215184179
 MonoBehaviour:
@@ -3642,10 +3643,10 @@ RectTransform:
   - {fileID: 1974642293}
   m_Father: {fileID: 672113487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -150}
+  m_SizeDelta: {x: 400, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1693425971
 MonoBehaviour:
