@@ -12,8 +12,8 @@ public class MusicSheetManager : MonoBehaviour
     public GameObject playhead;
     public float beatsPerMin = 120f;
 
-    // A private class to hold event information
-    private class PlaybackEvent
+    // A public class to hold event information
+    public class PlaybackEvent
     {
         public NoteData noteData;
         public PlacedNote sourceNote; // Reference to the actual note object
@@ -21,7 +21,7 @@ public class MusicSheetManager : MonoBehaviour
         public float durationInTicks;
     }
 
-    private List<PlaybackEvent> fullSequence;
+    public List<PlaybackEvent> fullSequence;
     private bool isPlaying = false;
     private bool hasFiredForCurrentNote = false;
     private Coroutine playbackCoroutine;

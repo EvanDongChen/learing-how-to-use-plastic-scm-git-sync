@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 67843043857030681}
   - component: {fileID: 1782398853757344327}
   - component: {fileID: 6200270807317094716}
+  - component: {fileID: 2434574342897301770}
   m_Layer: 0
   m_Name: DamageText
   m_TagString: Untagged
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: -0.0333519}
+  m_margin: {x: 0, y: 0, z: -3.6620178, w: -0.0333519}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -191,3 +192,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatSpeed: 0.2
   lifetime: 1
+--- !u!33 &2434574342897301770
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785189570761649224}
+  m_Mesh: {fileID: 0}

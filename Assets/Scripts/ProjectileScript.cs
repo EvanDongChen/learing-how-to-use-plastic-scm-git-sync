@@ -21,6 +21,8 @@ public class ProjectileScript : MonoBehaviour
 
     public GameObject explosionPrefab; // Assign in inspector or via manager
 
+    private MusicSheetManager musicSheetManager; // Reference to MusicSheetManager
+
     // Returns damage after attribute modifications
     public int GetModifiedDamage(int baseDamage)
     {
@@ -35,13 +37,48 @@ public class ProjectileScript : MonoBehaviour
                     modifiedDamage *= 2;
                     break;
                 case NoteData.AttributeType.Harmonic:
-                    // TODO: Enhance next note to deal double damage, stack if next is harmonic
+                    // Deal double damage if the prior note was harmonic
+                    if (musicSheetManager != null && musicSheetManager.fullSequence != null)
+                    {
+                        // Find this note in the sequence by matching element
+                        int idx = musicSheetManager.fullSequence.FindIndex(ev => ev.noteData.element == this.element);
+                        if (idx > 0 && idx < musicSheetManager.fullSequence.Count)
+                        {
+                            var priorNote = musicSheetManager.fullSequence[idx - 1];
+                            if (priorNote.noteData.attributes != null &&
+                                priorNote.noteData.attributes.Contains(NoteData.AttributeType.Harmonic))
+                            {
+                                modifiedDamage *= 2;
+                            }
+                        }
+                    }
                     break;
                 case NoteData.AttributeType.Symponic:
-                    // TODO: Bonus damage per note of matching type
+                    // Bonus damage per note of matching type
+                    if (musicSheetManager != null && musicSheetManager.fullSequence != null)
+                    {
+                        int matchCount = 0;
+                        foreach (var ev in musicSheetManager.fullSequence)
+                        {
+                            if (ev.noteData.element == this.element)
+                                matchCount++;
+                        }
+                        modifiedDamage += matchCount;
+                    }
                     break;
                 case NoteData.AttributeType.Legato:
-                    // TODO: Increase damage by # of legato notes in your music
+                    // Increase damage by # of legato notes in your music
+                    if (musicSheetManager != null && musicSheetManager.fullSequence != null)
+                    {
+                        int legatoCount = 0;
+                        foreach (var ev in musicSheetManager.fullSequence)
+                        {
+                            if (ev.noteData.attributes != null &&
+                                ev.noteData.attributes.Contains(NoteData.AttributeType.Legato))
+                                legatoCount++;
+                        }
+                        modifiedDamage += legatoCount;
+                    }
                     break;
                     // Staccato, Accelerando, Reverb are handled in ProjectileManagerScript or elsewhere
             }
@@ -108,6 +145,15 @@ public class ProjectileScript : MonoBehaviour
         }
 
         Destroy(gameObject, duration);
+    }
+
+    void Start()
+    {
+        GameObject musicSheetObj = GameObject.Find("MusicSheet");
+        if (musicSheetObj != null)
+        {
+            musicSheetManager = musicSheetObj.GetComponent<MusicSheetManager>();
+        }
     }
 
     void Update()
