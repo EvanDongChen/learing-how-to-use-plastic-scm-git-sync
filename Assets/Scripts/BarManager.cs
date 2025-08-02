@@ -18,11 +18,30 @@ public class BarManager : MonoBehaviour, IDropHandler
 
     public float fixedNoteWidth = 30f;
 
+    [SerializeField] private RectTransform fillBar;
+    [SerializeField] private RectTransform fillInner;
+
+    private float targetFillPercent = 0f;
+    private float currentFillPercent = 0f;
+    [SerializeField] private float fillSpeed = 3f;
+
+
     private void Awake()
     {
         barRect = GetComponent<RectTransform>();
         totalTicksInBar *= scalingFactor;
     }
+
+    private void Update()
+{
+    if (fillInner == null || fillBar == null) return;
+    
+    currentFillPercent = Mathf.Lerp(currentFillPercent, targetFillPercent, Time.deltaTime * fillSpeed);
+
+    float fullWidth = fillBar.rect.width;
+    fillInner.sizeDelta = new Vector2(fullWidth * currentFillPercent, fillInner.sizeDelta.y);
+}
+
 
     public List<PlacedNote> GetPlacedNotes()
     {
@@ -73,12 +92,14 @@ public class BarManager : MonoBehaviour, IDropHandler
 
         // Redraw all notes on the bar
         redrawNotes();
+        UpdateBarFillVisual();
     }
 
     public void RemoveNote(PlacedNote noteToRemove)
     {
         notesInBar.Remove(noteToRemove);
         redrawNotes();
+        UpdateBarFillVisual();
     }
 
     //arrange the notes visually
@@ -140,4 +161,9 @@ public class BarManager : MonoBehaviour, IDropHandler
         return lastTick;
     }
 
+    private void UpdateBarFillVisual()
+    {
+        int currentTicks = (int)notesInBar.Sum(note => note.noteData.noteDuration * scalingFactor);
+        targetFillPercent = Mathf.Clamp01((float)currentTicks / totalTicksInBar);
+    }
 }
