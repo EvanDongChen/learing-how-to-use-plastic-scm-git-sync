@@ -32,8 +32,6 @@ public class GameManager : MonoBehaviour
     public bool waveClear {  get; set; }
     public GameState previousState;
 
-    private PlayerInputActions inputActions;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -48,14 +46,14 @@ public class GameManager : MonoBehaviour
         }
 
         // Initialize the new Input System actions
-        inputActions = new PlayerInputActions();
+        InputActions = new PlayerInputActions();
         string savedBindings = PlayerPrefs.GetString("rebinds", string.Empty);
         if (!string.IsNullOrEmpty(savedBindings))
         {
             InputActions.asset.LoadBindingOverridesFromJson(savedBindings);
         }
 
-        inputActions.Enable();
+        InputActions.Enable();
     }
 
     private void Start()

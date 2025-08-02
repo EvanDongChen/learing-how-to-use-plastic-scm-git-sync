@@ -80,7 +80,7 @@ public class ShopManager : MonoBehaviour
         selectedCards.Add(cardUI.GetCardData());
         selectedCount++;
 
-        button.interactable = false; // Disable after picking
+        button.interactable = false;
 
         if (cardData.note != null)
         {
@@ -93,25 +93,32 @@ public class ShopManager : MonoBehaviour
         {
             Debug.Log("All 3 picks made.");
             shopCanvas.SetActive(false);
-            // You can now proceed to apply effects, give cards to player, etc.
         }
     }
 
     List<ShopCard> GetRandomCards(int count)
+{
+    List<ShopCard> results = new();
+    int attempts = 0;
+    int maxAttempts = 100;
+
+    while (results.Count < count && attempts < maxAttempts)
     {
-        List<ShopCard> results = new();
+        Rarity chosenRarity = RollRarity();
+        List<ShopCard> filtered = allCards.FindAll(c => c.rarity == chosenRarity);
 
-        for (int i = 0; i < count; i++)
+        if (filtered.Count > 0)
         {
-            Rarity chosenRarity = RollRarity();
-            List<ShopCard> filtered = allCards.FindAll(c => c.rarity == chosenRarity);
-
-            if (filtered.Count > 0)
-                results.Add(filtered[Random.Range(0, filtered.Count)]);
+            ShopCard randomCard = filtered[Random.Range(0, filtered.Count)];
+            results.Add(randomCard); // allow duplicates
         }
 
-        return results;
+        attempts++;
     }
+
+    return results;
+}
+
 
     Rarity RollRarity()
     {
@@ -125,7 +132,7 @@ public class ShopManager : MonoBehaviour
                 return pair.Key;
         }
 
-        return Rarity.Common; // Fallback
+        return Rarity.Common;
     }
 
     void ClearShop()

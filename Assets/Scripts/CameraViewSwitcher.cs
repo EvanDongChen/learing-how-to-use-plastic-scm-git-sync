@@ -10,8 +10,8 @@ public class CameraViewSwitcher : MonoBehaviour
     public Canvas musicSheet;   
     public Canvas healthBar;
 
-    public float playerZoom = 6f;
-    public float mapZoom = 20f;
+    [SerializeField]public float playerZoom = 5f;
+    [SerializeField]public float mapZoom = 20f;
     public float zoomSpeed = 5f;
 
     private float targetZoom;

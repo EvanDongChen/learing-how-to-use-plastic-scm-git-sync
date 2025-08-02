@@ -673,7 +673,6 @@ MonoBehaviour:
   cardPrefab: {fileID: 2525945952434879721, guid: 8118a1fd1a9c3454db22161400b76516, type: 3}
   shopPanel: {fileID: 33315326}
   shopCanvas: {fileID: 1362113541}
-  shopCanvas: {fileID: 0}
 --- !u!4 &486560747
 Transform:
   m_ObjectHideFlags: 0
@@ -769,7 +768,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &518124986
 RectTransform:
@@ -3296,7 +3295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -604, y: -288}
+  m_AnchoredPosition: {x: -505, y: -277}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1556893393
@@ -4798,7 +4797,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 4
   m_TargetDisplay: 0
 --- !u!224 &2131677031
 RectTransform:
@@ -5147,6 +5146,7 @@ SceneRoots:
   - {fileID: 1967698612}
   - {fileID: 1234554047}
   - {fileID: 1206997143}
+  - {fileID: 2131677031}
   - {fileID: 518124986}
   - {fileID: 1607470762}
   - {fileID: 139003831}
@@ -5154,7 +5154,6 @@ SceneRoots:
   - {fileID: 6095499602474768588}
   - {fileID: 486560747}
   - {fileID: 1362113545}
-  - {fileID: 2131677031}
   - {fileID: 1460129538}
   - {fileID: 1047888624}
   - {fileID: 144338911}
