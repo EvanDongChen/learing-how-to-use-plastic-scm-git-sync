@@ -92,6 +92,7 @@ public class ShopManager : MonoBehaviour
         if (selectedCount == maxSelections)
         {
             Debug.Log("All 3 picks made.");
+            shopCanvas.SetActive(false);
             // You can now proceed to apply effects, give cards to player, etc.
         }
     }
