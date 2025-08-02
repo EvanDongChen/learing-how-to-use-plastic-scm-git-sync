@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e194743fb6d357640b4e49b167e408fa, type: 3}
-  m_Name: WholeNote_Lv1
+  m_Name: SixteenthNote_Lv1
   m_EditorClassIdentifier: 
-  noteName: WholeNote
+  noteName: SixteenthNote
   rarity: 1
   level: 1
-  noteDuration: 4
+  noteDuration: 0.25
   element: 0
   attributes: 
+  icon: {fileID: -5045229053359514266, guid: 8243079449d98f747b784622ae75a6db, type: 3}

@@ -11,6 +11,7 @@ public class NoteData : ScriptableObject
     public float noteDuration;
     public Elements element;
     public List<AttributeType> attributes;
+    public Sprite icon;
     
 
     /// <summary>

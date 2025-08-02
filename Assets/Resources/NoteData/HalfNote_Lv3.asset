@@ -16,5 +16,6 @@ MonoBehaviour:
   rarity: 1
   level: 3
   noteDuration: 2
-  element: 0
+  element: 2
   attributes: 
+  icon: {fileID: 7548643828267447861, guid: 8243079449d98f747b784622ae75a6db, type: 3}
