@@ -47,6 +47,8 @@ public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!GameManager.Instance.isEditable) return;
+
         originalParent = transform.parent;
         originalPosition = transform.position;
 

@@ -51,6 +51,9 @@ public class BarManager : MonoBehaviour, IDropHandler
     //notes being dropped on the bar
     public void OnDrop(PointerEventData eventData)
     {
+        //can only edit the bar when it's editable
+        if (!GameManager.Instance.isEditable) return;
+
         if (eventData.pointerDrag != null)
         {
             DraggableNote draggedNote = eventData.pointerDrag.GetComponent<DraggableNote>();
