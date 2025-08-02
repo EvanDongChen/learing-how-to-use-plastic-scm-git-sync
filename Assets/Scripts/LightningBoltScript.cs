@@ -20,10 +20,15 @@ public class LightningBoltScript : MonoBehaviour
     {
         searching = false;
         hitsleft = 4;
-         rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         boltCollider = GetComponent<Collider2D>();
-        if (boltCollider != null)
-            StartCoroutine(DisableColliderBriefly());
+
+        // Check if spawned inside an enemy and move away if so
+        Collider2D enemyCollider = Physics2D.OverlapCircle(transform.position, 0.1f, LayerMask.GetMask("Enemy"));
+        if (enemyCollider != null)
+        {
+            StartCoroutine(MoveAwayFromSpawn(enemyCollider.transform));
+        }
     }
     
 
@@ -64,6 +69,7 @@ public class LightningBoltScript : MonoBehaviour
             }
             searching = false;
             hitsleft--;
+
         }
     }
     private void move()
@@ -99,7 +105,8 @@ public class LightningBoltScript : MonoBehaviour
     private IEnumerator MoveAwayFromEnemy(Collision2D collision)
     {
         Vector3 awayDirection = (transform.position - collision.transform.position).normalized;
-        float moveAwayTime = 0.5f;
+        float moveAwayTime = 1.0f; // Increased from 0.5f
+        float moveAwaySpeed = speed * 2f; // Move away faster
         float elapsedTime = 0f;
 
         if (boltCollider != null)
@@ -107,7 +114,7 @@ public class LightningBoltScript : MonoBehaviour
 
         while (elapsedTime < moveAwayTime)
         {
-            transform.position += awayDirection * speed * Time.deltaTime;
+            transform.position += awayDirection * moveAwaySpeed * Time.deltaTime;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -118,10 +125,18 @@ public class LightningBoltScript : MonoBehaviour
         searching = true; // Resume searching after moving away
     }
 
-    private IEnumerator DisableColliderBriefly()
+    private IEnumerator MoveAwayFromSpawn(Transform enemyTransform)
     {
-        boltCollider.enabled = false;
-        yield return new WaitForSeconds(initialDisableTime);
-        boltCollider.enabled = true;
+        Vector3 awayDirection = (transform.position - enemyTransform.position).normalized;
+        float moveAwayTime = 0.5f; // Increased from 0.2f
+        float moveAwaySpeed = speed * 2f; // Move away faster
+        float elapsedTime = 0f;
+
+        while (elapsedTime < moveAwayTime)
+        {
+            transform.position += awayDirection * moveAwaySpeed * Time.deltaTime;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
     }
 }
