@@ -110,7 +110,7 @@ public class ShopManager : MonoBehaviour
         if (filtered.Count > 0)
         {
             ShopCard randomCard = filtered[Random.Range(0, filtered.Count)];
-            results.Add(randomCard); // allow duplicates
+            results.Add(randomCard);
         }
 
         attempts++;

@@ -105,7 +105,8 @@ public class GameManager : MonoBehaviour
 
     private void runLose()
     {
-        throw new NotImplementedException();
+        Debug.Log("GameManager: Player has lost the game.");
+        SceneManager.LoadScene("Start");
     }
 
     private void runRoundEnd()
