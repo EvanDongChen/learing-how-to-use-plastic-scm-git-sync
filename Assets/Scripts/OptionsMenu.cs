@@ -21,27 +21,54 @@ public class OptionsMenu : MonoBehaviour
 
     private void Awake()
     {
-        inputActions = new PlayerInputActions();
+
+        inputActions = GameManager.Instance.InputActions;
+
         inputActions.Enable();
 
-        // Initialize KeyRebinders with the correct actions and binding indices
+
+        string savedBindings = PlayerPrefs.GetString("rebinds", string.Empty);
+        if (!string.IsNullOrEmpty(savedBindings))
+        {
+            inputActions.LoadBindingOverridesFromJson(savedBindings);
+        }
+
         forwardRebinder.Initialize(inputActions.Player.Move, 1);   // W / Up
         backwardRebinder.Initialize(inputActions.Player.Move, 2);  // S / Down
         leftRebinder.Initialize(inputActions.Player.Move, 3);      // A / Left
         rightRebinder.Initialize(inputActions.Player.Move, 4);     // D / Right
-
         dashRebinder.Initialize(inputActions.Player.Dash, 0);
-        //attackRebinder.Initialize(inputActions.Player.Attack, 0); // Uncomment if using
     }
 
     private void Start()
     {
-        // Volume setup
         float savedVolume = PlayerPrefs.GetFloat("Volume", 1f);
         volumeSlider.value = savedVolume;
         AudioListener.volume = savedVolume;
         volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
         backButton.onClick.AddListener(OnBackPressed);
+
+        RegisterRebindSave(forwardRebinder);
+        RegisterRebindSave(backwardRebinder);
+        RegisterRebindSave(leftRebinder);
+        RegisterRebindSave(rightRebinder);
+        RegisterRebindSave(dashRebinder);
+        RegisterRebindSave(attackRebinder);
+    }
+
+    private void RegisterRebindSave(KeyRebinder rebinder)
+    {
+        rebinder.OnRebindComplete += () =>
+        {
+            string bindings = inputActions.SaveBindingOverridesAsJson();
+            PlayerPrefs.SetString("rebinds", bindings);
+            PlayerPrefs.Save();
+            inputActions.LoadBindingOverridesFromJson(bindings);
+            if (InputManager.Instance != null && InputManager.Instance.InputActions != inputActions)
+            {
+                InputManager.Instance.InputActions.LoadBindingOverridesFromJson(bindings);
+            }
+        };
     }
 
     private void OnVolumeChanged(float value)

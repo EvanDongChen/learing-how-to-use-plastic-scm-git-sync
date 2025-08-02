@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+    public PlayerInputActions InputActions { get; private set; }
     public GameState state;
     public static event Action<GameState> OnStateChange;
 
@@ -35,16 +36,33 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        if (Instance != null && Instance != this)
         // Initialize the new Input System actions
         inputActions = new PlayerInputActions();
         inputActions.Player.Enable();
 
         if (_instance != null && _instance != this)
         {
-            Destroy(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            InputActions = new PlayerInputActions();
+
+            string savedBindings = PlayerPrefs.GetString("rebinds", string.Empty);
+            if (!string.IsNullOrEmpty(savedBindings))
+            {
+                InputActions.asset.LoadBindingOverridesFromJson(savedBindings);
+            }
+
+            InputActions.Enable();
         }
         else
         {
+            Destroy(gameObject);
+            Instance = this;
+            //prevent gameobject from being destroyed during new scene load
+            DontDestroyOnLoad(gameObject);
             _instance = this;
             //prevent gameobject from being destroyed during new scene load
             DontDestroyOnLoad(gameObject);

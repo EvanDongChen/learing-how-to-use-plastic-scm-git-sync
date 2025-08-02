@@ -29,8 +29,10 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        inputActions = new PlayerInputActions();
+
+        inputActions = InputManager.Instance.InputActions;
         inputActions.Player.Enable();
+
         rb.freezeRotation = true;
 
         statsManager = GetComponent<StatsManager>();
