@@ -1,25 +1,51 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<GameManager>();
+
+                if (_instance == null)
+                {
+                    GameObject singletonObject = new GameObject("GameManager");
+                    _instance = singletonObject.AddComponent<GameManager>();
+                }
+                DontDestroyOnLoad(_instance.gameObject);
+            }
+            return _instance;
+        }
+    }
     public GameState state;
     public static event Action<GameState> OnStateChange;
 
     //public properties
     public bool waveClear {  get; set; }
+    public GameState previousState;
 
+    private PlayerInputActions inputActions;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        // Initialize the new Input System actions
+        inputActions = new PlayerInputActions();
+        inputActions.Player.Enable();
+
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            Instance = this;
+            _instance = this;
             //prevent gameobject from being destroyed during new scene load
             DontDestroyOnLoad(gameObject);
         }
@@ -32,6 +58,7 @@ public class GameManager : MonoBehaviour
 
     public void updateGameState(GameState newState)
     {
+        previousState = state;
         state = newState;
 
         switch (newState)
@@ -45,6 +72,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.OptionsMenu:
                 runOptionsMenu();
+                break;
+            case GameState.PausePage:
+                runPausePage();
                 break;
             case GameState.RoundEnd:
                 runRoundEnd();
@@ -62,6 +92,7 @@ public class GameManager : MonoBehaviour
         OnStateChange?.Invoke(newState);
     }
 
+    //STATE FUNCTIONS //////////
     private void runWin()
     {
         throw new NotImplementedException();
@@ -74,28 +105,69 @@ public class GameManager : MonoBehaviour
 
     private void runRoundEnd()
     {
-        throw new NotImplementedException();
+        Debug.Log("Game Manager: Round ended | Shop opening");
+    }
+
+    private void runPausePage()
+    {
+        Pause();
     }
 
     private void runOptionsMenu()
     {
-        throw new NotImplementedException();
+        Debug.Log("GameManager: Loading Options Page");
+        SceneManager.LoadScene("Options");
     }
 
     private void runMainGame()
     {
-        throw new NotImplementedException();
+        Debug.Log("GameManager: Loading Game");
+        SceneManager.LoadScene("Game");
     }
 
     private void runStartMenu()
     {
-        throw new NotImplementedException();
+        Debug.Log("GameManager: Loading Start Menu");
+        SceneManager.LoadScene("Start");
     }
 
 
     ///////////Methods///////////
     public void Pause() => Time.timeScale = 0f;
     public void UnPause() => Time.timeScale = 1f;
+
+    public void ResumeGameFromPause()
+    {
+        UnPause();
+        updateGameState(GameState.MainGame);
+    }
+
+
+
+    //special case revert for pause
+    public void ReturnToPreviousContext()
+    {
+        if (previousState == GameState.PausePage || previousState == GameState.MainGame)
+        {
+            SceneManager.LoadScene("Game");
+        }
+        else if (previousState == GameState.StartMenu)
+        {
+            SceneManager.LoadScene("Start");
+        }
+        updateGameState(previousState);
+    }
+
+
+    // FOR TESTING PURPOSES
+    private void Update()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            Debug.Log("DEBUG: Changing to Round End State");
+            updateGameState(GameState.RoundEnd);
+        }
+    }
 
 
 }
@@ -105,6 +177,7 @@ public enum GameState
     StartMenu,
     MainGame,
     OptionsMenu,
+    PausePage,
     RoundEnd,
     Lose,
     Win

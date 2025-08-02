@@ -17,21 +17,17 @@ public class PauseMenu : MonoBehaviour
             Debug.Log("Pause action performed");
             TogglePauseMenu();
         };
+        GameManager.OnStateChange += GameManagerOnStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnStateChange -= GameManagerOnStateChanged;
     }
 
     private void OnEnable()
     {
         inputActions.Enable();
-
-        if (gameManager == null)
-        {
-            gameManager = GameManager.Instance;
-
-            if (gameManager == null)
-            {
-                Debug.LogError("GameManager instance not found. Make sure GameManager exists in the scene.");
-            }
-        }
     }
 
     private void OnDisable()
@@ -42,11 +38,24 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         pauseMenuPanel.SetActive(false);
+
+        if (GameManager.Instance != null && GameManager.Instance.state == GameState.PausePage)
+        {
+            pauseMenuPanel.SetActive(true);
+        }
     }
 
-    private void OnPausePressed(InputAction.CallbackContext context)
+    private void GameManagerOnStateChanged(GameState state)
     {
-        TogglePauseMenu();
+        //toggle the pause menu ui based on the pausepage state
+        if (state == GameState.PausePage)
+        {
+            pauseMenuPanel.SetActive(true);
+        }
+        else
+        {
+            pauseMenuPanel.SetActive(false);
+        }
     }
 
     public void TogglePauseMenu()
@@ -64,39 +73,25 @@ public class PauseMenu : MonoBehaviour
     public void ShowPauseMenu()
     {
         pauseMenuPanel.SetActive(true);
-        if (gameManager != null)
-        {
-            gameManager.Pause();
-        }
+        GameManager.Instance.updateGameState(GameState.PausePage);
     }
 
     public void ResumeGame()
     {
         pauseMenuPanel.SetActive(false);
-        if (gameManager != null)
-        {
-            gameManager.UnPause();
-            gameManager.updateGameState(GameState.MainGame);
-        }
+        GameManager.Instance.ResumeGameFromPause();
     }
 
     public void Options()
     {
-        if (gameManager != null)
-        {
-            gameManager.updateGameState(GameState.OptionsMenu);
-        }
-        
-        SceneTracker.SetPreviousScene(SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("Options");
+        Debug.Log("Clicked Options");
+        GameManager.Instance.updateGameState(GameState.OptionsMenu);
     }
 
     public void MainMenu()
     {
-        if (gameManager != null)
-        {
-            gameManager.updateGameState(GameState.StartMenu);
-        }
-        SceneManager.LoadScene("Start");
+        Debug.Log("Clicked Menu");
+
+        gameManager.updateGameState(GameState.StartMenu);
     }
 }
