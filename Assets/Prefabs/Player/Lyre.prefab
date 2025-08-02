@@ -359,12 +359,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8480748c7c2ee45b0fd3f4ed43d97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 2506787011061836262, guid: fbede3f76bbc0a14d96f8a95c28a5762, type: 3}
   followSpeed: 5
   animator: {fileID: 2071852058286433201}
   offsetDistance: 1
   holdDuration: 0.5
-  attackParticles: {fileID: 0}
+  attackParticles: {fileID: 3344305729004572896, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
 --- !u!1 &8796588860593338506
 GameObject:
   m_ObjectHideFlags: 0
