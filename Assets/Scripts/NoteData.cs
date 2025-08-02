@@ -41,8 +41,6 @@ public class NoteData : ScriptableObject
         Quartet,
         /// <summary>Shoots 5 notes instead of 1</summary>
         Quintet,
-        /// <summary>Increases attack speed for a short duration after the note lands, can stack</summary>
-        Tremolo,
         /// <summary>Speeds up the movement of the note, making it travel faster</summary>
         Accelerando,
         /// <summary>Heals you for a portion of the damage dealt with this note</summary>
