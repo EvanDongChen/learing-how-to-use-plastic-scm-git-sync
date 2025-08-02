@@ -10,6 +10,7 @@ public class ShopManager : MonoBehaviour
     [Header("UI References")]
     public GameObject cardPrefab;
     public Transform shopPanel;
+    [SerializeField] private GameObject shopCanvas;
 
     private int selectedCount = 0;
     private const int maxSelections = 3;
@@ -24,9 +25,34 @@ public class ShopManager : MonoBehaviour
         { Rarity.Legendary, 5f }
     };
 
+    private void Awake()
+    {
+        GameManager.OnStateChange += GameManagerOnStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnStateChange -= GameManagerOnStateChanged;
+    }
+
+    private void GameManagerOnStateChanged(GameState state)
+    {
+        if (state == GameState.RoundEnd)
+        {
+            Debug.Log("GameManager state changed to RoundEnd. Activating shop.");
+            shopCanvas.SetActive(true);
+            PresentShop();
+        }
+        else
+        {
+            Debug.Log("GameManager state is not RoundEnd. Deactivating shop.");
+            shopCanvas.SetActive(false);
+        }
+    }
+
     void Start()
     {
-        PresentShop();
+        shopCanvas.SetActive(false);
     }
 
     public void PresentShop()
@@ -66,6 +92,7 @@ public class ShopManager : MonoBehaviour
         if (selectedCount == maxSelections)
         {
             Debug.Log("All 3 picks made.");
+            shopCanvas.SetActive(false);
             // You can now proceed to apply effects, give cards to player, etc.
         }
     }

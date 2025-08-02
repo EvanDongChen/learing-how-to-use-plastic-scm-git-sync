@@ -53,14 +53,7 @@ public class OptionsMenu : MonoBehaviour
 
     private void OnBackPressed()
     {
-        string previousScene = SceneTracker.PreviousScene;
-
-        SceneManager.LoadScene(previousScene);
-
-        if (previousScene == "Game" && GameManager.Instance != null)
-        {
-            GameManager.Instance.updateGameState(GameState.MainGame);
-        }
+        GameManager.Instance.ReturnToPreviousContext();
     }
 
     private void OnDestroy()

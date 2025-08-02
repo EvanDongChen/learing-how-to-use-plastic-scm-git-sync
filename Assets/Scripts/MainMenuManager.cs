@@ -5,13 +5,12 @@ public class MainMenuManager : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene("Game");
+        GameManager.Instance.updateGameState(GameState.MainGame);
     }
 
     public void Options()
     {
-        SceneTracker.SetPreviousScene(SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("Options");
+        GameManager.Instance.updateGameState(GameState.OptionsMenu);
     }
 
     public void Quit()
