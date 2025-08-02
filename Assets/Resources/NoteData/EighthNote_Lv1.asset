@@ -17,5 +17,7 @@ MonoBehaviour:
   level: 1
   noteDuration: 0.5
   element: 1
+  attributes: 0000000001000000
+  attributes: 
   attributes: 0500000005000000
   icon: {fileID: 8500665761480077948, guid: 8243079449d98f747b784622ae75a6db, type: 3}

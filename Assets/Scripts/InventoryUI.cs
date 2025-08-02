@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class InventoryUI : MonoBehaviour, IDropHandler
 {
     public GameObject draggableNotePrefab;
+    public GameObject inventorySlotPrefab;
     public Transform slotContainer;
 
     void OnEnable()
@@ -26,8 +27,11 @@ public class InventoryUI : MonoBehaviour, IDropHandler
 
         foreach (var noteData in InventoryManager.Instance.ownedNotes)
         {
-            // Instantiate the new prefab
-            GameObject noteGO = Instantiate(draggableNotePrefab, slotContainer);
+            GameObject slotGO = Instantiate(inventorySlotPrefab, slotContainer);
+            GameObject noteGO = Instantiate(draggableNotePrefab, slotGO.transform);
+
+            RectTransform noteRectTransform = noteGO.GetComponent<RectTransform>();
+            noteRectTransform.anchoredPosition = Vector2.zero;
 
             // Get the DraggableNote script and give it the data
             DraggableNote note = noteGO.GetComponent<DraggableNote>();

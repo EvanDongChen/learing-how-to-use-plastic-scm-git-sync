@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7421961616128895475}
   - component: {fileID: 5883566529342614648}
   - component: {fileID: 7415670180304818274}
+  - component: {fileID: 929759605662344199}
   m_Layer: 5
   m_Name: Note_Template
   m_TagString: Untagged
@@ -91,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noteData: {fileID: 0}
   icon: {fileID: 7421961616128895475}
+  wasAcceptedIntoBar: 0
 --- !u!225 &7415670180304818274
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -103,3 +105,15 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &929759605662344199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3640368017612370025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e6fed280274014a855c4d4ffcf3230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
