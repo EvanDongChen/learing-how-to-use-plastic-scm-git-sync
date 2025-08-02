@@ -5,7 +5,6 @@ public class HealthBar : MonoBehaviour
 {
     public StatsManager statsManager;
     public Image healthFillImage;
-    public TMPro.TextMeshProUGUI healthText;
 
     public float lerpSpeed = 3f;
     private float targetFillAmount;
@@ -28,7 +27,5 @@ public class HealthBar : MonoBehaviour
         targetFillAmount = (float)statsManager.currentHealth / statsManager.maxHealth;
 
         healthFillImage.fillAmount = Mathf.Lerp(healthFillImage.fillAmount, targetFillAmount, Time.deltaTime * lerpSpeed);
-
-        healthText.text = $"{statsManager.currentHealth}/{statsManager.maxHealth}";
     }
 }

@@ -9,7 +9,7 @@ public class BarManager : MonoBehaviour, IDropHandler
     //Handles logic for adding/arranging notes
 
     //to make all the note duration values whole numbers
-    public int scalingFactor = 2;
+    public int scalingFactor = 4;
     public int totalTicksInBar = 4;
     public GameObject noteOnBarPrefab;
 
@@ -41,6 +41,8 @@ public class BarManager : MonoBehaviour, IDropHandler
 
                 InventoryManager.Instance.RemoveNote(draggedNote.noteData);
 
+                draggedNote.wasAcceptedIntoBar = true;
+
                 Destroy(draggedNote.gameObject);
             }
         }
@@ -64,6 +66,8 @@ public class BarManager : MonoBehaviour, IDropHandler
         PlacedNote placedNote = noteOnBarGO.GetComponent<PlacedNote>();
         placedNote.noteData = newNoteData;
         placedNote.currentBar = this;
+
+        placedNote.SetupVisual(newNoteData);
 
         notesInBar.Add(placedNote);
 
