@@ -36,37 +36,26 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
         if (Instance != null && Instance != this)
-        // Initialize the new Input System actions
-        inputActions = new PlayerInputActions();
-        inputActions.Player.Enable();
-
-        if (_instance != null && _instance != this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            InputActions = new PlayerInputActions();
-
-            string savedBindings = PlayerPrefs.GetString("rebinds", string.Empty);
-            if (!string.IsNullOrEmpty(savedBindings))
-            {
-                InputActions.asset.LoadBindingOverridesFromJson(savedBindings);
-            }
-
-            InputActions.Enable();
+            Destroy(gameObject);
         }
         else
         {
-            Destroy(gameObject);
-            Instance = this;
-            //prevent gameobject from being destroyed during new scene load
-            DontDestroyOnLoad(gameObject);
             _instance = this;
             //prevent gameobject from being destroyed during new scene load
             DontDestroyOnLoad(gameObject);
         }
+
+        // Initialize the new Input System actions
+        inputActions = new PlayerInputActions();
+        string savedBindings = PlayerPrefs.GetString("rebinds", string.Empty);
+        if (!string.IsNullOrEmpty(savedBindings))
+        {
+            InputActions.asset.LoadBindingOverridesFromJson(savedBindings);
+        }
+
+        inputActions.Enable();
     }
 
     private void Start()
