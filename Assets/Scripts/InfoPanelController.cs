@@ -53,7 +53,7 @@ public class InfoPanelController : MonoBehaviour
 
         rarityText.text = new string('*', data.rarity);
 
-        foreach (Transform child in attributesContainer)
+        foreach (Transform child in attributesContainer) 
         {
             Destroy(child.gameObject);
         }
@@ -64,7 +64,11 @@ public class InfoPanelController : MonoBehaviour
             {
                 GameObject tagGO = Instantiate(attributeTagPrefab, attributesContainer);
                 TextMeshProUGUI tagText = tagGO.GetComponentInChildren<TextMeshProUGUI>();
-                if (tagText != null)
+                if (tagText == null)
+                {
+                    Debug.LogError("Could not find TextMeshProUGUI component on the attribute tag prefab", tagGO);
+                }
+                else
                 {
                     tagText.text = attribute.ToString();
                 }
