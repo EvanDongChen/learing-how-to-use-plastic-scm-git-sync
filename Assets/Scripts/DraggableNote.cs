@@ -4,13 +4,16 @@ using UnityEngine.UI;
 
 public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private NoteData noteData;
+    public NoteData noteData;
     public Image icon;
 
 
     private Transform originalParent;
+    private Vector3 originalPosition;
     private CanvasGroup canvasGroup;
 
+    [HideInInspector]
+    public bool wasAcceptedIntoBar = false;
     private void Start()
     {
         SetupNoteVisual();
@@ -45,11 +48,13 @@ public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = transform.parent;
+        originalPosition = transform.position;
 
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
 
         canvasGroup.blocksRaycasts = false;
+        wasAcceptedIntoBar = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -60,6 +65,12 @@ public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = true;
+
+        if (!wasAcceptedIntoBar)
+        {
+            transform.SetParent(originalParent);
+            transform.position = originalPosition;
+        }
 
         // Check if we dropped it on something that wasn't a BarManager
         if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<BarManager>() == null)

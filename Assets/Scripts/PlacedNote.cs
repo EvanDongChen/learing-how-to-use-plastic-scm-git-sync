@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlacedNote : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
@@ -15,6 +16,28 @@ public class PlacedNote : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Vector2 originalPos;
+
+    [SerializeField] private Image icon;
+
+    public void SetupVisual(NoteData note)
+    {
+        icon.sprite = note.icon;
+        switch (note.element)
+        {
+            case NoteData.Elements.Fire:
+                icon.color = Color.red;
+                break;
+            case NoteData.Elements.Water:
+                icon.color = Color.blue;
+                break;
+            case NoteData.Elements.Lightining:
+                icon.color = Color.yellow;
+                break;
+            default:
+                icon.color = Color.white;
+                break;
+        }
+    }
 
     private void Awake()
     {
