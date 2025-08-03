@@ -11,6 +11,8 @@ public class ProjectileManagerScript : MonoBehaviour
     private NoteData waterNoteData;
     private NoteData lightningNoteData;
 
+    public Sprite test;
+
     void Start()
     {
         // Find Lyre GameObject and LyreScript
@@ -18,6 +20,7 @@ public class ProjectileManagerScript : MonoBehaviour
         if (lyreObject != null)
         {
             lyreScript = lyreObject.GetComponent<LyreScript>();
+            spawnPoint = lyreObject.transform;
             if (lyreScript == null)
             {
                 Debug.LogWarning("Lyre GameObject found, but LyreScript component is missing.");
@@ -34,6 +37,7 @@ public class ProjectileManagerScript : MonoBehaviour
         fireNoteData.noteDuration = 2f;
         fireNoteData.rarity = 1;
         fireNoteData.level = 1;
+        fireNoteData.icon = test; // Assign test sprite for visual debugging
         fireNoteData.attributes = new System.Collections.Generic.List<NoteData.AttributeType> { NoteData.AttributeType.Forte };
 
         waterNoteData = ScriptableObject.CreateInstance<NoteData>();
