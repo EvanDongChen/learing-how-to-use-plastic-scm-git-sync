@@ -649,6 +649,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8526511604651413671, guid: 70d8d5e3e3d85fa45af080e9ea98ce1e, type: 3}
+      propertyPath: quarterNoteIcon
+      value: 
+      objectReference: {fileID: 7267170179426877965, guid: 8243079449d98f747b784622ae75a6db, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
