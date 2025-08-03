@@ -39,11 +39,13 @@ public class GameManager : MonoBehaviour
     public bool isWaveActive { get; private set; } = false;
     public GameState previousState;
 
+
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
+            return;
         }
         else
         {
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
             //prevent gameobject from being destroyed during new scene load
             DontDestroyOnLoad(gameObject);
         }
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Initialize the new Input System actions
         InputActions = new PlayerInputActions();
@@ -61,6 +64,11 @@ public class GameManager : MonoBehaviour
         }
 
         InputActions.Enable();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
@@ -173,7 +181,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager: Loading Game");
         SceneManager.LoadScene("Game");
-        GiveStarterNotes();
     }
 
     private void runStartMenu()
@@ -193,6 +200,15 @@ public class GameManager : MonoBehaviour
         updateGameState(GameState.MainGame);
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Game")
+        {
+            Debug.Log("Game Scene has loaded. Finding UI buttons and running setup...");
+            GiveStarterNotes();
+        }
+    }
+
 
 
     //special case revert for pause
@@ -209,8 +225,15 @@ public class GameManager : MonoBehaviour
         updateGameState(previousState);
     }
 
+    public void BeginRound()
+    {
+        updateGameState(GameState.RoundStart);
+    }
+
     public void StartWave()
     {
+        updateGameState(GameState.GamePlay);
+
         currentWave++;
         isWaveActive = true;
 
@@ -275,29 +298,10 @@ public class GameManager : MonoBehaviour
         InventoryManager.Instance.AddNote(lightningNote);
     }
 
-
-    // FOR TESTING PURPOSES
-    private void Update()
+    public void GoToRoundStart()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            Debug.Log("DEBUG: Changing to Round End State");
-            updateGameState(GameState.RoundEnd);
-        }
-
-        if (Keyboard.current.qKey.wasPressedThisFrame)
-        {
-            Debug.Log("DEBUG: Changing to Round Start State");
-            updateGameState(GameState.RoundStart);
-        }
-        if (Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            Debug.Log("DEBUG: Changing to GamePlay State");
-            updateGameState(GameState.GamePlay);
-        }
+        updateGameState(GameState.RoundStart);
     }
-
-
 }
 
 public enum GameState
