@@ -371,3 +371,4 @@ MonoBehaviour:
   reactionManager: {fileID: 0}
   textNumberManager: {fileID: 0}
   damageTextPrefab: {fileID: 0}
+  spawner: {fileID: 0}

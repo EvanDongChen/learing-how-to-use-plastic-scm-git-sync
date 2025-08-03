@@ -3,14 +3,20 @@ using UnityEngine;
 public class RoomController : MonoBehaviour
 {
     public EnemySpawner spawner;
-
-    private bool roomActivated = false;
+    public DoorController[] doorsToCloseOnEnter;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!roomActivated && other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !spawner.IsWaveActive())
         {
-            roomActivated = true;
+            // Close the doors of the *previous room*
+            foreach (var door in doorsToCloseOnEnter)
+            {
+                if (door != null)
+                    door.CloseDoor();
+            }
+
+            // Start this room's wave
             spawner.StartWave();
         }
     }
