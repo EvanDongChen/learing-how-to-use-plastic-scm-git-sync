@@ -68,15 +68,22 @@ public class InfoPanelController : MonoBehaviour
         {
             foreach (var attribute in data.attributes)
             {
+                string attributeName = attribute.ToString();
+
+                string resourcePath = "AttributeIcons/" + attributeName;
+
+                Sprite attributeIcon = Resources.Load<Sprite>(resourcePath);
+
                 GameObject tagGO = Instantiate(attributeTagPrefab, attributesContainer);
-                TextMeshProUGUI tagText = tagGO.GetComponentInChildren<TextMeshProUGUI>();
-                if (tagText == null)
+                Image tagImage = tagGO.GetComponent<Image>();
+
+                if (tagImage != null && attributeIcon != null)
                 {
-                    Debug.LogError("Could not find TextMeshProUGUI component on the attribute tag prefab", tagGO);
+                    tagImage.sprite = attributeIcon;
                 }
                 else
                 {
-                    tagText.text = attribute.ToString();
+                    Debug.LogError($"Could not load attribute icon from path: '{resourcePath}'");
                 }
             }
         }
