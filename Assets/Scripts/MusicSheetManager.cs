@@ -104,53 +104,69 @@ public class MusicSheetManager : MonoBehaviour
 
     private IEnumerator PlaybackLoop()
     {
-        int currentEventIndex = 0;
-        float timePerTick = (60f / beatsPerMin) / bars[0].scalingFactor;
+        // Make the playhead visible and set it to the start.
+        playhead.SetActive(true);
+        playhead.transform.SetParent(bars[0].transform, false);
 
-        while (true)
+        // Calculate total duration of the entire sheet in seconds.
+        float totalSheetTicks = bars.Sum(b => b.totalTicksInBar);
+        float timePerTick = (60f / beatsPerMin) / bars[0].scalingFactor; // Assumes all bars have same scaling
+        float totalSheetDurationInSeconds = totalSheetTicks * timePerTick;
+
+        float playbackTimer = 0f;
+        NoteData previouslyActiveNote = null;
+
+        // Loop as long as playback is active
+        while (isPlaying) 
         {
-            // Get the current note event
-            PlaybackEvent currentEvent = fullSequence[currentEventIndex];
-
-            // --- Show the playhead on the note ---
-            var currentBar = currentEvent.sourceNote.currentBar;
-            playhead.transform.SetParent(currentBar.transform, false);
-            float noteCenterX = currentEvent.sourceNote.localXPos;
-            playhead.transform.localPosition = new Vector3(noteCenterX, 0, 0);
-            playhead.SetActive(true);
-
-            // Set this note as "active" for shooting
-            activeNoteData = currentEvent.noteData;
-            hasFiredForCurrentNote = false;
-
-            float noteDurationInSeconds = currentEvent.durationInTicks * timePerTick;
-            yield return new WaitForSeconds(noteDurationInSeconds);
-
-            // Deactivate the note and hide the playhead
-            activeNoteData = null;
-            playhead.SetActive(false);
-
-            // --- Calculate the rest time until the next note ---
-            currentEventIndex = (currentEventIndex + 1) % fullSequence.Count;
-            PlaybackEvent nextEvent = fullSequence[currentEventIndex];
-
-            float endOfCurrentNoteTicks = currentEvent.startTimeInTicks + currentEvent.durationInTicks;
-            float startOfNextNoteTicks = nextEvent.startTimeInTicks;
-
-            // If the next note is on a new loop, calculate accordingly
-            if (startOfNextNoteTicks < endOfCurrentNoteTicks)
+            // Increment timer and loop it if it exceeds the total duration
+            playbackTimer += Time.deltaTime;
+            if (playbackTimer >= totalSheetDurationInSeconds)
             {
-                float totalSheetDurationInTicks = bars.Sum(b => b.totalTicksInBar);
-                startOfNextNoteTicks += totalSheetDurationInTicks;
+                playbackTimer -= totalSheetDurationInSeconds; // Loop back to the beginning
             }
 
-            float restDurationInTicks = startOfNextNoteTicks - endOfCurrentNoteTicks;
-            float restDurationInSeconds = restDurationInTicks * timePerTick;
+            // Calculate total progress in ticks
+            float currentProgressPercent = playbackTimer / totalSheetDurationInSeconds;
+            float currentTotalTicks = currentProgressPercent * totalSheetTicks;
 
-            if (restDurationInSeconds > 0)
+            // Figure out which bar the playhead is currently on
+            BarManager currentBar = null;
+            int ticksSoFar = 0;
+            foreach (var bar in bars)
             {
-                yield return new WaitForSeconds(restDurationInSeconds);
+                if (currentTotalTicks >= ticksSoFar && currentTotalTicks < ticksSoFar + bar.totalTicksInBar)
+                {
+                    currentBar = bar;
+                    break;
+                }
+                ticksSoFar += bar.totalTicksInBar;
             }
+
+            // Position the playhead within the current bar
+            if (currentBar != null)
+            {
+                playhead.transform.SetParent(currentBar.transform, false);
+                playhead.transform.SetAsLastSibling();
+
+                float ticksInCurrentBar = currentTotalTicks - ticksSoFar;
+                float percentInCurrentBar = ticksInCurrentBar / currentBar.totalTicksInBar;
+                float barWidth = currentBar.GetComponent<RectTransform>().rect.width;
+
+                playhead.GetComponent<RectTransform>().anchoredPosition = new Vector2(percentInCurrentBar * barWidth, 0);
+            }
+
+            PlaybackEvent activeEvent = fullSequence.FirstOrDefault(e => currentTotalTicks >= e.startTimeInTicks && currentTotalTicks < e.startTimeInTicks + e.durationInTicks);
+
+            activeNoteData = activeEvent?.noteData; 
+
+            if (activeNoteData != previouslyActiveNote)
+            {
+                hasFiredForCurrentNote = false;
+                previouslyActiveNote = activeNoteData;
+            }
+
+            yield return null; // Wait for the next frame
         }
     }
 }

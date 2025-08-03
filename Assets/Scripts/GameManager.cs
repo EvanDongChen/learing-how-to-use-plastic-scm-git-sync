@@ -31,8 +31,7 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnStateChange;
 
     //public properties
-    public bool waveClear { get; set; }
-    public bool isEditable { get; private set; }
+    public bool waveClear { get; set; }    public bool isEditable { get; private set; }
     public GameState previousState;
 
     private void Awake()
