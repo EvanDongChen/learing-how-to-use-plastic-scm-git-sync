@@ -10,44 +10,49 @@ public class ShopCardUI : MonoBehaviour
     public TMP_Text rarityText;
     public Transform attributesContainer;
     public GameObject attributeIconPrefab;
+    public AttributeDatabase attributeDB;
 
     private ShopCard cardData;
 
     public void Setup(ShopCard card)
     {
         cardData = card;
-
         nameText.text = card.cardName;
+        rarityText.text = card.rarity.ToString();
 
-        if (card.note != null)
-        {
-            iconImage.sprite = card.note.icon;
-            iconImage.color = GetColorForElementNote(card.note.element);
-            backgroundImage.color = GetColorForElement(card.note.element);
-        }
-
-        rarityText.text = new string('*', card.note.rarity);
-        
         foreach (Transform child in attributesContainer)
         {
             Destroy(child.gameObject);
         }
 
-        if (attributeIconPrefab != null)
+        if (card.note != null)
         {
-            foreach (var attribute in card.note.attributes)
+            // Set the main note icon
+            iconImage.sprite = card.note.icon;
+            iconImage.color = GetColorForElementNote(card.note.element);
+            backgroundImage.color = GetColorForElement(card.note.element);
+
+            if (attributeIconPrefab != null && attributeDB != null)
             {
-                string attributeName = attribute.ToString();
-                string resourcePath = "AttributeIcons/" + attributeName;
-                Sprite attributeIcon = Resources.Load<Sprite>(resourcePath);
-                
-                if (attributeIcon != null)
+                foreach (var attribute in card.note.attributes)
                 {
-                    GameObject iconGO = Instantiate(attributeIconPrefab, attributesContainer);
-                    iconGO.GetComponent<Image>().sprite = attributeIcon;
+                    string attributeName = attribute.ToString();
+                    Sprite attributeIcon = attributeDB.GetIconByName(attributeName);
+
+                    // Only create an icon if it was found in the database
+                    if (attributeIcon != null)
+                    {
+                        GameObject iconGO = Instantiate(attributeIconPrefab, attributesContainer);
+                        iconGO.GetComponent<AttributeIconUI>().iconImage.sprite = attributeIcon;
+                    }
                 }
             }
         }
+        else
+        {
+            iconImage.enabled = false;
+        }
+
     }
 
     private Color GetColorForElement(NoteData.Elements element)

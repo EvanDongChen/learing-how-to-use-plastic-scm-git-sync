@@ -20,11 +20,9 @@ public class CameraFollow : MonoBehaviour
             if (playerObject != null)
             {
                 target = playerObject.transform; // ✅ Get the transform from GameObject
-                Debug.Log("✅ CameraFollow: Found player — " + playerObject.name);
                 yield break;
             }
 
-            Debug.Log("⏳ CameraFollow: Waiting for player...");
             yield return null;
         }
     }
@@ -35,7 +33,6 @@ public class CameraFollow : MonoBehaviour
         {
             Vector3 newPos = new Vector3(target.position.x, target.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, newPos, followSpeed * Time.deltaTime);
-            Debug.Log($"📷 CameraFollow: Moving to {newPos}");
         }
     }
 }

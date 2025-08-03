@@ -13,6 +13,7 @@ public class InfoPanelController : MonoBehaviour
     public Image noteIcon;
     public Transform attributesContainer;
     public GameObject attributeTagPrefab;
+    public AttributeDatabase attributeDB;
 
     public Canvas mainCanvas;
 
@@ -64,26 +65,24 @@ public class InfoPanelController : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        if (attributeTagPrefab != null)
+        if (attributeTagPrefab != null && attributeDB != null)
         {
             foreach (var attribute in data.attributes)
             {
                 string attributeName = attribute.ToString();
 
-                string resourcePath = "AttributeIcons/" + attributeName;
-
-                Sprite attributeIcon = Resources.Load<Sprite>(resourcePath);
+                // Use the database to find the correct sprite by name
+                Sprite attributeIcon = attributeDB.GetIconByName(attributeName);
 
                 GameObject tagGO = Instantiate(attributeTagPrefab, attributesContainer);
-                Image tagImage = tagGO.GetComponent<Image>();
-
-                if (tagImage != null && attributeIcon != null)
+                AttributeIconUI tagUI = tagGO.GetComponent<AttributeIconUI>();
+                if (tagUI != null && attributeIcon != null)
                 {
-                    tagImage.sprite = attributeIcon;
+                    tagUI.iconImage.sprite = attributeIcon;
                 }
                 else
                 {
-                    Debug.LogError($"Could not load attribute icon from path: '{resourcePath}'");
+                    Debug.LogError($"Could not find icon for '{attributeName}' in the database.", tagGO);
                 }
             }
         }

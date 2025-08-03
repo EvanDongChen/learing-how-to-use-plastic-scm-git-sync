@@ -11,6 +11,7 @@ public class ShopManager : MonoBehaviour
     public GameObject cardPrefab;
     public Transform shopPanel;
     [SerializeField] private GameObject shopCanvas;
+    public AttributeDatabase attributeDB;
 
     private int selectedCount = 0;
     private const int maxSelections = 3;
@@ -66,6 +67,9 @@ public class ShopManager : MonoBehaviour
         {
             GameObject cardGO = Instantiate(cardPrefab, shopPanel);
             ShopCardUI cardUI = cardGO.GetComponent<ShopCardUI>();
+
+            cardUI.attributeDB = this.attributeDB;
+
             cardUI.Setup(card);
 
             Button button = cardGO.GetComponent<Button>();
