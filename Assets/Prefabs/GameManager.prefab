@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a405ee25c10e02b43a48925075f6d208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quarterNoteIcon: {fileID: 7267170179426877965, guid: 8243079449d98f747b784622ae75a6db, type: 3}
   state: 0
-  isPaused: 0
   previousState: 0

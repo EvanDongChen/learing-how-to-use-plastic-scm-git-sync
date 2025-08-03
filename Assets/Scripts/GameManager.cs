@@ -2,11 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     private MusicSheetManager musicSheetManager;
+
+    public Sprite quarterNoteIcon;
 
     public static GameManager Instance
     {
@@ -36,11 +39,13 @@ public class GameManager : MonoBehaviour
     public bool isWaveActive { get; private set; } = false;
     public GameState previousState;
 
+
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
+            return;
         }
         else
         {
@@ -48,6 +53,7 @@ public class GameManager : MonoBehaviour
             //prevent gameobject from being destroyed during new scene load
             DontDestroyOnLoad(gameObject);
         }
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Initialize the new Input System actions
         InputActions = new PlayerInputActions();
@@ -58,6 +64,11 @@ public class GameManager : MonoBehaviour
         }
 
         InputActions.Enable();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
@@ -189,6 +200,15 @@ public class GameManager : MonoBehaviour
         updateGameState(GameState.MainGame);
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Game")
+        {
+            Debug.Log("Game Scene has loaded. Finding UI buttons and running setup...");
+            GiveStarterNotes();
+        }
+    }
+
 
 
     //special case revert for pause
@@ -205,8 +225,15 @@ public class GameManager : MonoBehaviour
         updateGameState(previousState);
     }
 
+    public void BeginRound()
+    {
+        updateGameState(GameState.RoundStart);
+    }
+
     public void StartWave()
     {
+        updateGameState(GameState.GamePlay);
+
         currentWave++;
         isWaveActive = true;
 
@@ -234,29 +261,47 @@ public class GameManager : MonoBehaviour
         isWaveActive = isActive;
     }
 
-
-    // FOR TESTING PURPOSES
-    private void Update()
+    private void GiveStarterNotes()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            Debug.Log("DEBUG: Changing to Round End State");
-            updateGameState(GameState.RoundEnd);
-        }
+        Debug.Log("Giving player starter notes...");
 
-        if (Keyboard.current.qKey.wasPressedThisFrame)
-        {
-            Debug.Log("DEBUG: Changing to Round Start State");
-            updateGameState(GameState.RoundStart);
-        }
-        if (Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            Debug.Log("DEBUG: Changing to GamePlay State");
-            updateGameState(GameState.GamePlay);
-        }
+        NoteData fireNote = ScriptableObject.CreateInstance<NoteData>();
+        fireNote.noteName = "Fire Quarter Note"; 
+        fireNote.level = 1;
+        fireNote.element = NoteData.Elements.Fire;
+        fireNote.rarity = 1;
+        fireNote.noteDuration = 1f;
+        fireNote.icon = quarterNoteIcon;
+        fireNote.attributes = new List<NoteData.AttributeType>();
+        InventoryManager.Instance.AddNote(fireNote);
+
+        // Create Water Note
+        NoteData waterNote = ScriptableObject.CreateInstance<NoteData>();
+        waterNote.noteName = "Water Quarter Note";
+        waterNote.level = 1;
+        waterNote.element = NoteData.Elements.Water;
+        waterNote.rarity = 1;
+        waterNote.noteDuration = 1f;
+        waterNote.icon = quarterNoteIcon; // <-- Using the new, single icon
+        waterNote.attributes = new List<NoteData.AttributeType>();
+        InventoryManager.Instance.AddNote(waterNote);
+
+        // Create Lightning Note
+        NoteData lightningNote = ScriptableObject.CreateInstance<NoteData>();
+        lightningNote.noteName = "Lightning Quarter Note";
+        lightningNote.level = 1;
+        lightningNote.element = NoteData.Elements.Lightining;
+        lightningNote.rarity = 1;
+        lightningNote.noteDuration = 1f;
+        lightningNote.icon = quarterNoteIcon;
+        lightningNote.attributes = new List<NoteData.AttributeType>();
+        InventoryManager.Instance.AddNote(lightningNote);
     }
 
-
+    public void GoToRoundStart()
+    {
+        updateGameState(GameState.RoundStart);
+    }
 }
 
 public enum GameState

@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class NoteManager : MonoBehaviour
-    
+
 {
     public List<NoteData> noteData;
 
@@ -27,7 +27,7 @@ public class NoteManager : MonoBehaviour
     }
 
     public enum Rarity { Common, Rare, Epic, Legendary }
-    
+
     public void ClearNotes()
     {
         if (noteData != null)
@@ -39,66 +39,47 @@ public class NoteManager : MonoBehaviour
     {
         noteData = new List<NoteData>();
 
-        // Rarity settings
-        Dictionary<Rarity, float> rarityDurations = new Dictionary<Rarity, float>
-        {
-            { Rarity.Common, 60f },
-            { Rarity.Rare, 25f },
-            { Rarity.Epic, 10f },
-            { Rarity.Legendary, 5f }
-        };
+        Dictionary<Rarity, int> rarityLevels = new Dictionary<Rarity, int>
+    {
+        { Rarity.Common, 1 }, { Rarity.Rare, 2 }, { Rarity.Epic, 3 }, { Rarity.Legendary, 4 }
+    };
 
-        // Sprites and durations
-        List<(Sprite sprite, float duration)> spriteDurationList = new List<(Sprite, float)>
-        {
-            (WholeNote, 1f),
-            (HalfNote, 2f),
-            (QuarterNote, 1f),
-            (EighthNote, 0.5f),
-            (Rest,1f),
-            (TwoSixteenthNote, 0.5f)
-        };
+        List<(Sprite sprite, float duration, string name)> spriteDurationList = new List<(Sprite, float, string)>
+    {
+        (WholeNote, 4f, "Whole Note"),
+        (HalfNote, 2f, "Half Note"),
+        (QuarterNote, 1f, "Quarter Note"),
+        (EighthNote, 0.5f, "Eighth Note"),
+        (Rest, 1f, "Rest"),
+        (TwoSixteenthNote, 0.25f, "Sixteenth Note")
+    };
 
-        // All elements
-        var elements = new List<NoteData.Elements> {
-            NoteData.Elements.Fire,
-            NoteData.Elements.Water,
-            NoteData.Elements.Lightining
-        };
-
-        // All attributes
+        var elements = new List<NoteData.Elements> { NoteData.Elements.Fire, NoteData.Elements.Water, NoteData.Elements.Lightining };
         var allAttributes = new List<NoteData.AttributeType>((NoteData.AttributeType[])System.Enum.GetValues(typeof(NoteData.AttributeType)));
-
         System.Random rand = new System.Random();
 
-        foreach (var rarity in rarityDurations.Keys)
+        foreach (var rarity in rarityLevels.Keys)
         {
             for (int i = 0; i < 9; i++)
             {
                 NoteData note = ScriptableObject.CreateInstance<NoteData>();
                 note.rarity = (int)rarity + 1;
-                note.level = rarity == Rarity.Common ? 1 : 2;
-
-                // Pick element in round-robin for balance
+                note.level = rarityLevels[rarity];
                 note.element = elements[i % elements.Count];
 
-                // Pick icon and duration
                 var spriteDur = spriteDurationList[i % spriteDurationList.Count];
                 note.icon = spriteDur.sprite;
-                note.noteDuration = rarityDurations[rarity];
-                // Override duration to match icon if needed
                 note.noteDuration = spriteDur.duration;
 
-                // Pick attributes
+                note.noteName = note.element.ToString() + " " + spriteDur.name; // Assign the proper name from the list
+
                 note.attributes = new List<NoteData.AttributeType>();
                 if (rarity == Rarity.Common || rarity == Rarity.Rare)
                 {
-                    // 1 random attribute
                     note.attributes.Add(allAttributes[rand.Next(allAttributes.Count)]);
                 }
                 else
                 {
-                    // 3 unique random attributes
                     var shuffled = new List<NoteData.AttributeType>(allAttributes);
                     for (int j = 0; j < 3; j++)
                     {
@@ -108,7 +89,6 @@ public class NoteManager : MonoBehaviour
                     }
                 }
 
-                note.noteName = $"{rarity} Note {i + 1}";
                 noteData.Add(note);
             }
         }

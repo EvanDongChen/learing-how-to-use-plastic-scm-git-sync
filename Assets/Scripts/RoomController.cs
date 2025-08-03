@@ -7,7 +7,7 @@ public class RoomController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !GameManager.Instance.isWaveActive)
+        if (other.CompareTag("Player") && !GameManager.Instance.isWaveActive && GameManager.Instance.state == GameState.RoundStart)
         {
             // Close the doors of the *previous room*
             foreach (var door in doorsToCloseOnEnter)
