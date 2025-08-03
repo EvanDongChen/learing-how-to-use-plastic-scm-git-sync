@@ -351,7 +351,7 @@ MonoBehaviour:
   walkSpeed: 2.5
   attackRange: 8
   fireRate: 3
-  minionPrefab: {fileID: 838129187298627906, guid: 3971948a186f2bf48b850f0a4a828a60, type: 3}
+  minionPrefab: {fileID: 838129187298627906, guid: b2d74aa4de7d94144b89747ca43d4b2a, type: 3}
   spawnPoint: {fileID: 8849401155378360949}
 --- !u!114 &1339377047262938867
 MonoBehaviour:
@@ -371,3 +371,4 @@ MonoBehaviour:
   reactionManager: {fileID: 0}
   textNumberManager: {fileID: 0}
   damageTextPrefab: {fileID: 0}
+  spawner: {fileID: 0}
