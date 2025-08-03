@@ -66,24 +66,6 @@ public class ProjectileManagerScript : MonoBehaviour
         Debug.Log($"[TEST] MultiShot Note should spawn {expectedCount} projectiles.");
     }
 
-    void Update()
-    {
-        
-        // Press 1 for fire, 2 for water, 3 for lightning (Input System)
-        if (UnityEngine.InputSystem.Keyboard.current.digit1Key.wasPressedThisFrame)
-        {
-            ShootNoteAtCursor(fireNoteData);
-        }
-        if (UnityEngine.InputSystem.Keyboard.current.digit2Key.wasPressedThisFrame)
-        {
-            ShootNoteAtCursor(waterNoteData);
-        }
-        if (UnityEngine.InputSystem.Keyboard.current.digit3Key.wasPressedThisFrame)
-        {
-            ShootNoteAtCursor(lightningNoteData);
-        }
-       
-    }
 
     // Shoots a note projectile toward the cursor
     public void ShootNoteAtCursor(NoteData data)
