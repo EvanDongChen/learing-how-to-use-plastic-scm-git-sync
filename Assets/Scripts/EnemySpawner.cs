@@ -5,35 +5,35 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Enemy Settings")]
-    public GameObject[] enemyPrefabs;          // Assign multiple enemy prefabs in the Inspector
-    public Transform[] spawnPoints;            // Assign spawn points for enemies
+    public GameObject[] enemyPrefabs;
+    public Transform[] spawnPoints;
 
     [Header("Wave and Door Settings")]
-    public DoorController door;                // Reference to the room's door
+    public DoorController[] doors;
     public int waveNumber = 0;
 
-    private int enemiesRemaining = 0;
+    [Header("Spawner Behavior")]
+    public bool autoStartOnGameBegin = false;
+
     private bool waveActive = false;
 
     void Start()
     {
-        if (waveNumber == 0)
+        if (autoStartOnGameBegin)
         {
             StartWave();
         }
     }
 
-    // Call this from your RoomController when the player enters
     public void StartWave()
     {
         if (waveActive) return;
 
         waveNumber++;
         int enemyCount = waveNumber + 2;
-        enemiesRemaining = enemyCount;
         waveActive = true;
 
-        door.CloseDoor(); // Close the door before spawning starts
+        CloseAllDoors();
         StartCoroutine(SpawnEnemies(enemyCount));
     }
 
@@ -41,35 +41,55 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            // Pick a random spawn point
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
-            // Pick a random enemy prefab
             GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-
-            // Instantiate enemy
             GameObject enemy = Instantiate(selectedPrefab, spawnPoint.position, Quaternion.identity);
 
-            // Link enemy to this spawner
-            EnemyHealthScript healthScript = enemy.GetComponent<EnemyHealthScript>();
-            if (healthScript != null)
-            {
-                healthScript.spawner = this;
-            }
-
-            yield return new WaitForSeconds(0.5f); // Delay between spawns
+            // Make sure enemy is tagged "Enemy" in the prefab for detection
+            yield return new WaitForSeconds(0.5f);
         }
+
+        // After spawning all enemies, start monitoring for wave end
+        StartCoroutine(CheckForWaveEnd());
     }
 
-    // Called by EnemyHealthScript when an enemy dies
-    public void OnEnemyDied()
+    private IEnumerator CheckForWaveEnd()
     {
-        enemiesRemaining--;
-
-        if (enemiesRemaining <= 0 && waveActive)
+        while (waveActive)
         {
-            waveActive = false;
-            door.OpenDoor(); // Open door after clearing the wave
+            yield return new WaitForSeconds(1f);
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            if (enemies.Length == 0)
+            {
+                waveActive = false;
+                OpenAllDoors();
+                yield break;
+            }
         }
     }
+
+    private void CloseAllDoors()
+    {
+        if (doors != null)
+        {
+            foreach (var door in doors)
+                door.CloseDoor();
+        }
+    }
+
+    private void OpenAllDoors()
+    {
+        if (doors != null)
+        {
+            foreach (var door in doors)
+                door.OpenDoor();
+        }
+    }
+
+    public bool IsWaveActive()
+    {
+        return waveActive;
+    }
+
 }

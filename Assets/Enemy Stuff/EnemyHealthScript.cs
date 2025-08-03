@@ -165,10 +165,7 @@ public class EnemyHealthScript : MonoBehaviour
     private void Die()
     {
         Debug.Log("Enemy died.");
-        if (spawner != null)
-        {
-            spawner.OnEnemyDied();
-        }
+
         Destroy(gameObject);
     }
     private void OnCollisionEnter2D(Collision2D collision)
