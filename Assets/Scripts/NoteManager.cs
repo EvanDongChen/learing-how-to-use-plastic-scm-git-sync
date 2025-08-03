@@ -52,7 +52,7 @@ public class NoteManager : MonoBehaviour
         List<(Sprite sprite, float duration)> spriteDurationList = new List<(Sprite, float)>
         {
             (WholeNote, 1f),
-            (HalfNote, 0.5f),
+            (HalfNote, 2f),
             (QuarterNote, 1f),
             (EighthNote, 0.5f),
             (Rest,1f),
