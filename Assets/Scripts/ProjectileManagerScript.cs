@@ -11,8 +11,6 @@ public class ProjectileManagerScript : MonoBehaviour
     private NoteData waterNoteData;
     private NoteData lightningNoteData;
 
-    public Sprite test;
-
     void Start()
     {
         // Find Lyre GameObject and LyreScript
@@ -30,6 +28,7 @@ public class ProjectileManagerScript : MonoBehaviour
         {
             Debug.LogWarning("Lyre GameObject not found in the scene.");
         }
+        /*
 
         fireNoteData = ScriptableObject.CreateInstance<NoteData>();
         fireNoteData.noteName = "Fire Note";
@@ -62,11 +61,12 @@ public class ProjectileManagerScript : MonoBehaviour
         expectedCount += 2; // Trio
         expectedCount += 3; // Quartet
         expectedCount += 4; // Quintet
-        Debug.Log($"[TEST] MultiShot Note should spawn {expectedCount} projectiles.");
+        Debug.Log($"[TEST] MultiShot Note should spawn {expectedCount} projectiles.");**/
     }
 
     void Update()
     {
+        /*
         // Press 1 for fire, 2 for water, 3 for lightning (Input System)
         if (UnityEngine.InputSystem.Keyboard.current.digit1Key.wasPressedThisFrame)
         {
@@ -80,6 +80,7 @@ public class ProjectileManagerScript : MonoBehaviour
         {
             ShootNoteAtCursor(lightningNoteData);
         }
+        */
     }
 
     // Shoots a note projectile toward the cursor
