@@ -171,4 +171,15 @@ public class EnemyHealthScript : MonoBehaviour
         }
         Destroy(gameObject);
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var statsManager = collision.gameObject.GetComponent<StatsManager>();
+            if (statsManager != null)
+            {
+                statsManager.TakeDamage(2);
+            }
+        }
+    }
 }

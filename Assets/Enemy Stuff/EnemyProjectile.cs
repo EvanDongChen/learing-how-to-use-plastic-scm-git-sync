@@ -16,17 +16,15 @@ public class EnemyProjectile : MonoBehaviour
         transform.Translate(direction * speed * Time.deltaTime);
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            // TODO: Damage player here
-            Destroy(gameObject);
-        }
-        else if (!other.isTrigger)
-        {
-            // Destroy on hitting environment
-            Destroy(gameObject);
+            var statsManager = collision.gameObject.GetComponent<StatsManager>();
+            if (statsManager != null)
+            {
+                statsManager.TakeDamage(2);
+            }
         }
     }
 }
