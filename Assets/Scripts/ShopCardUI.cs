@@ -18,7 +18,7 @@ public class ShopCardUI : MonoBehaviour
     {
         cardData = card;
         nameText.text = card.cardName;
-        rarityText.text = card.rarity.ToString();
+        rarityText.text = new string('*', card.note.rarity);
 
         foreach (Transform child in attributesContainer)
         {
