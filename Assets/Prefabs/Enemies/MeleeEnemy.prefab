@@ -183,6 +183,7 @@ MonoBehaviour:
   reactionManager: {fileID: 0}
   textNumberManager: {fileID: 0}
   damageTextPrefab: {fileID: 0}
+  spawner: {fileID: 0}
 --- !u!58 &4064967326931305248
 CircleCollider2D:
   m_ObjectHideFlags: 0

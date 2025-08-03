@@ -131,6 +131,7 @@ MonoBehaviour:
   reactionManager: {fileID: 0}
   textNumberManager: {fileID: 0}
   damageTextPrefab: {fileID: 0}
+  spawner: {fileID: 0}
 --- !u!1 &1468423695935237664
 GameObject:
   m_ObjectHideFlags: 0

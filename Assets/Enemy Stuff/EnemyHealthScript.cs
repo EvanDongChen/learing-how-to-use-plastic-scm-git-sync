@@ -170,13 +170,23 @@ public class EnemyHealthScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log($"Enemy collided with: {collision.gameObject.name}");
+
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Enemy collided with Player");
+
             var statsManager = collision.gameObject.GetComponent<StatsManager>();
             if (statsManager != null)
             {
+                Debug.Log("Found StatsManager on Player, calling TakeDamage.");
                 statsManager.TakeDamage(2);
+            }
+            else
+            {
+                Debug.LogWarning("StatsManager not found on Player!");
             }
         }
     }
+
 }
