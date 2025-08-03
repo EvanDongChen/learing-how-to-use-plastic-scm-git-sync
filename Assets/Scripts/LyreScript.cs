@@ -12,35 +12,52 @@ public class LyreScript : MonoBehaviour
     private float holdTimer = 0f;
     private Vector3 holdPosition;
 
+    void Start()
+    {
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.Find("Player");
+            if (playerObj != null)
+                player = playerObj.transform;
+        }
+    }
+
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (animator != null)
-                animator.SetTrigger("Attack");
+            TriggerAttack();
+        }
+        */
+    }
 
-            if (player != null)
-            {
-                // Get direction from player to cursor in world space
-                Vector3 mousePos = Input.mousePosition;
-                mousePos.z = Mathf.Abs(Camera.main.transform.position.z - player.position.z);
-                Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+    public void TriggerAttack()
+    {
+        if (animator != null)
+            animator.SetTrigger("Attack");
 
-                Vector3 direction = (worldMousePos - player.position);
-                direction.z = 0;
-                if (direction.sqrMagnitude > 0.001f)
-                    direction = direction.normalized;
-                else
-                    direction = Vector3.right; // Default direction if mouse is exactly at player
+        if (player != null)
+        {
+            // Get direction from player to cursor in world space
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = Mathf.Abs(Camera.main.transform.position.z - player.position.z);
+            Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-                // Move lyre to player position plus offset in direction of cursor
-                holdPosition = player.position + direction * offsetDistance;
-                transform.position = holdPosition;
-                holdTimer = holdDuration;
+            Vector3 direction = (worldMousePos - player.position);
+            direction.z = 0;
+            if (direction.sqrMagnitude > 0.001f)
+                direction = direction.normalized;
+            else
+                direction = Vector3.right; // Default direction if mouse is exactly at player
 
-                if (attackParticles != null)
-                    Instantiate(attackParticles, holdPosition, Quaternion.identity);
-            }
+            // Move lyre to player position plus offset in direction of cursor
+            holdPosition = player.position + direction * offsetDistance;
+            transform.position = holdPosition;
+            holdTimer = holdDuration;
+
+            if (attackParticles != null)
+                Instantiate(attackParticles, holdPosition, Quaternion.identity);
         }
     }
 

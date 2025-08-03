@@ -554,6 +554,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7395e5fe53fd56d4fae3ffcc5e32ce73, type: 3}
+--- !u!1001 &298597927
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.39782
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.0117
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613843420202490170, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613854661055157406, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
+      propertyPath: m_Name
+      value: LyrePlayEffect (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0e885706e0cbac44988968771eb6709b, type: 3}
 --- !u!1 &330566783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,6 +1844,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &711281396 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8731029505686548606, guid: cd8e3e0ecb3f8d648ad2f53c487f0f1b, type: 3}
+  m_PrefabInstance: {fileID: 903546330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &736496840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,7 +2149,7 @@ PrefabInstance:
     - target: {fileID: 3303186872888210415, guid: 2738203c67bd5e24f8851e8457a28292, type: 3}
       propertyPath: spawnPoint
       value: 
-      objectReference: {fileID: 2026217698}
+      objectReference: {fileID: 711281396}
     - target: {fileID: 4368662102125244939, guid: 2738203c67bd5e24f8851e8457a28292, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.26317
@@ -7250,3 +7312,4 @@ SceneRoots:
   - {fileID: 1102371583}
   - {fileID: 1981641264}
   - {fileID: 330566785}
+  - {fileID: 298597927}

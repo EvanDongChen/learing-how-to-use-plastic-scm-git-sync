@@ -4,6 +4,8 @@ public class ProjectileManagerScript : MonoBehaviour
 {
     public GameObject noteProjectilePrefab;
     public Transform spawnPoint;
+    private GameObject lyreObject;
+    private LyreScript lyreScript;
 
     private NoteData fireNoteData;
     private NoteData waterNoteData;
@@ -11,6 +13,21 @@ public class ProjectileManagerScript : MonoBehaviour
 
     void Start()
     {
+        // Find Lyre GameObject and LyreScript
+        lyreObject = GameObject.Find("Lyre");
+        if (lyreObject != null)
+        {
+            lyreScript = lyreObject.GetComponent<LyreScript>();
+            if (lyreScript == null)
+            {
+                Debug.LogWarning("Lyre GameObject found, but LyreScript component is missing.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Lyre GameObject not found in the scene.");
+        }
+
         fireNoteData = ScriptableObject.CreateInstance<NoteData>();
         fireNoteData.noteName = "Fire Note";
         fireNoteData.element = NoteData.Elements.Fire;
@@ -66,6 +83,12 @@ public class ProjectileManagerScript : MonoBehaviour
     {
         if (data == null || noteProjectilePrefab == null || spawnPoint == null)
             return;
+
+        // Call LyreScript TriggerAttack if available
+        if (lyreScript != null)
+        {
+            lyreScript.TriggerAttack();
+        }
 
         // Get mouse position in world space (2D)
         Vector2 mouseScreenPos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
