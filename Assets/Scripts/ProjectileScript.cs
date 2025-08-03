@@ -117,24 +117,28 @@ public class ProjectileScript : MonoBehaviour
 
         damage = level; // Set damage equal to level
 
-        // Set color based on element
-        Color color = Color.white;
-        switch (element)
-        {
-            case NoteData.Elements.Fire:
-                color = Color.red;
-                break;
-            case NoteData.Elements.Water:
-                color = Color.blue;
-                break;
-            case NoteData.Elements.Lightining:
-                color = Color.yellow;
-                break;
-        }
-        // For 2D objects, use SpriteRenderer
+        // Set sprite to note icon if available
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null)
         {
+            if (data.icon != null)
+            {
+                sr.sprite = data.icon;
+            }
+            // Set color based on element
+            Color color = Color.white;
+            switch (element)
+            {
+                case NoteData.Elements.Fire:
+                    color = Color.red;
+                    break;
+                case NoteData.Elements.Water:
+                    color = Color.blue;
+                    break;
+                case NoteData.Elements.Lightining:
+                    color = Color.yellow;
+                    break;
+            }
             sr.color = color;
         }
 

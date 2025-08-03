@@ -4,6 +4,8 @@ public class ProjectileManagerScript : MonoBehaviour
 {
     public GameObject noteProjectilePrefab;
     public Transform spawnPoint;
+    private GameObject lyreObject;
+    private LyreScript lyreScript;
 
     private NoteData fireNoteData;
     private NoteData waterNoteData;
@@ -11,12 +13,30 @@ public class ProjectileManagerScript : MonoBehaviour
 
     void Start()
     {
+        // Find Lyre GameObject and LyreScript
+        lyreObject = GameObject.Find("Lyre");
+        if (lyreObject != null)
+        {
+            lyreScript = lyreObject.GetComponent<LyreScript>();
+            spawnPoint = lyreObject.transform;
+            if (lyreScript == null)
+            {
+                Debug.LogWarning("Lyre GameObject found, but LyreScript component is missing.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Lyre GameObject not found in the scene.");
+        }
+        /*
+
         fireNoteData = ScriptableObject.CreateInstance<NoteData>();
         fireNoteData.noteName = "Fire Note";
         fireNoteData.element = NoteData.Elements.Fire;
         fireNoteData.noteDuration = 2f;
         fireNoteData.rarity = 1;
         fireNoteData.level = 1;
+        fireNoteData.icon = test; // Assign test sprite for visual debugging
         fireNoteData.attributes = new System.Collections.Generic.List<NoteData.AttributeType> { NoteData.AttributeType.Forte };
 
         waterNoteData = ScriptableObject.CreateInstance<NoteData>();
@@ -41,11 +61,12 @@ public class ProjectileManagerScript : MonoBehaviour
         expectedCount += 2; // Trio
         expectedCount += 3; // Quartet
         expectedCount += 4; // Quintet
-        Debug.Log($"[TEST] MultiShot Note should spawn {expectedCount} projectiles.");
+        Debug.Log($"[TEST] MultiShot Note should spawn {expectedCount} projectiles.");**/
     }
 
     void Update()
     {
+        /*
         // Press 1 for fire, 2 for water, 3 for lightning (Input System)
         if (UnityEngine.InputSystem.Keyboard.current.digit1Key.wasPressedThisFrame)
         {
@@ -59,6 +80,7 @@ public class ProjectileManagerScript : MonoBehaviour
         {
             ShootNoteAtCursor(lightningNoteData);
         }
+        */
     }
 
     // Shoots a note projectile toward the cursor
@@ -66,6 +88,12 @@ public class ProjectileManagerScript : MonoBehaviour
     {
         if (data == null || noteProjectilePrefab == null || spawnPoint == null)
             return;
+
+        // Call LyreScript TriggerAttack if available
+        if (lyreScript != null)
+        {
+            lyreScript.TriggerAttack();
+        }
 
         // Get mouse position in world space (2D)
         Vector2 mouseScreenPos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
