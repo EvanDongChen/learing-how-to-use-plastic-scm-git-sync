@@ -30,6 +30,8 @@ public class StatsManager : MonoBehaviour
         attackSpeed = baseAttackSpeed;
         RecalculateMaxHealth();
         currentHealth = maxHealth;
+        Debug.Log("StatsManager Awake: currentHealth = " + currentHealth);
+
     }
 
     public void Heal(int amount)
@@ -82,7 +84,8 @@ public class StatsManager : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        currentHealth = Mathf.Max(currentHealth - amount, 0);
+        currentHealth -= amount;
+        currentHealth = Mathf.Max(currentHealth, 0);
         Debug.Log("Took Damage: " + amount + ", Current Health: " + currentHealth);
 
         if (currentHealth <= 0)

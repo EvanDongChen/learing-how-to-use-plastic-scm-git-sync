@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     {
         previousState = state;
         state = newState;
-
+        Debug.Log($"GameState changing to: {newState} (called by: {new System.Diagnostics.StackTrace().GetFrame(1).GetMethod().Name})");
         switch (newState)
         {
             case GameState.StartMenu:
