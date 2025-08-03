@@ -43,7 +43,7 @@ public class BarManager : MonoBehaviour, IDropHandler
     private void Update()
     {
         if (fillInner == null || fillBar == null) return;
-    
+
         currentFillPercent = Mathf.Lerp(currentFillPercent, targetFillPercent, Time.deltaTime * fillSpeed);
 
         float fullWidth = fillBar.rect.width;
@@ -212,5 +212,29 @@ public class BarManager : MonoBehaviour, IDropHandler
             restVisuals.Add(restGO);
         }
     }
+    
+    public void ResetSheet()
+    {
+        // Destroy all note GameObjects
+        foreach (PlacedNote note in notesInBar)
+        {
+            if (note != null)
+            {
+                Destroy(note.gameObject);
+            }
+        }
+
+        notesInBar.Clear();
+
+        // Reset visual fill and rests
+        targetFillPercent = 0f;
+        currentFillPercent = 0f;
+
+        UpdateBarFillVisual();
+        redrawNotes();
+
+        Debug.Log($"ResetSheet() called on bar: {this.name}");
+    }
+
 
 }

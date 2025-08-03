@@ -128,6 +128,19 @@ public class GameManager : MonoBehaviour
     private void runLose()
     {
         Debug.Log("GameManager: Player has lost the game.");
+        currentWave = 0;
+        isWaveActive = false;
+        waveClear = false;
+        isEditable = false;
+
+        InventoryManager.Instance.ClearInventory();
+        StatsManager playerStats = FindAnyObjectByType<StatsManager>();
+        playerStats?.ResetStats();
+
+        // Optionally reset music sheet or other systems
+        BarManager barManager = FindAnyObjectByType<BarManager>();
+        barManager?.ResetSheet(); // Only if you implemented this
+
         SceneManager.LoadScene("Start");
     }
 

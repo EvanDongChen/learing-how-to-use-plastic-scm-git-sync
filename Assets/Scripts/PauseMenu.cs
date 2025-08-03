@@ -92,6 +92,6 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Clicked Menu");
 
-        gameManager.updateGameState(GameState.StartMenu);
+        GameManager.Instance.updateGameState(GameState.StartMenu);
     }
 }

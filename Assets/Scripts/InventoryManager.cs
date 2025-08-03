@@ -86,4 +86,10 @@ public class InventoryManager : MonoBehaviour
 
         return upgraded;
     }
+
+    public void ClearInventory()
+    {
+        ownedNotes.Clear();
+        OnInventoryChanged?.Invoke();
+    }
 }
