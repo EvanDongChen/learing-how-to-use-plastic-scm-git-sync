@@ -1046,7 +1046,7 @@ MonoBehaviour:
   - cardName: EighthNote
     rarity: 0
     icon: {fileID: -2615874204119335, guid: 944114449fa95f44194cc97fc955b280, type: 3}
-    note: {fileID: 11400000, guid: 5304f5b35ee1fb74c9cc39b2b1ac41c0, type: 2}
+    note: {fileID: 11400000, guid: 53534a5cc8dc7f243810ab20b9a76092, type: 2}
   - cardName: HalfNote
     rarity: 0
     icon: {fileID: 8166710274925509176, guid: 4eccda7ac5a5e4849a0ae6e3e5bca83c, type: 3}
@@ -3347,7 +3347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3883433457151421900, guid: fbede3f76bbc0a14d96f8a95c28a5762, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8384292693995426556, guid: fbede3f76bbc0a14d96f8a95c28a5762, type: 3}
       propertyPath: m_CollisionDetection

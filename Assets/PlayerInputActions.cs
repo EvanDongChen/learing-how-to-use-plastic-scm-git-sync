@@ -274,6 +274,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
 
     ~@PlayerInputActions()
     {
+        // Ensure Player actions are disabled before finalization to prevent leaks
+        if (m_Player != null && m_Player.enabled)
+        {
+            Player.Disable();
+        }
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, PlayerInputActions.Player.Disable() has not been called.");
     }
 
@@ -282,6 +287,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// </summary>
     public void Dispose()
     {
+        // Disable Player actions before destroying asset to prevent leaks
+        Player.Disable();
         UnityEngine.Object.Destroy(asset);
     }
 

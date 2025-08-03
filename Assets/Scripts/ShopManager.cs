@@ -54,7 +54,70 @@ public class ShopManager : MonoBehaviour
     void Start()
     {
         shopCanvas.SetActive(false);
+        StartCoroutine(InitializeShopCards());
     }
+
+    private System.Collections.IEnumerator InitializeShopCards()
+    {
+        GameObject noteManagerObj = GameObject.Find("NoteManager");
+        if (noteManagerObj != null)
+        {
+            NoteManager noteManager = noteManagerObj.GetComponent<NoteManager>();
+            if (noteManager != null)
+            {
+                // Wait until noteData is initialized and has elements
+                while (noteManager.noteData == null || noteManager.noteData.Count <=35)
+                {
+                    yield return null; // Wait for next frame
+                }
+                this.allCards = ConvertNotesToShopCards(noteManager.noteData);
+            }
+            else
+            {
+                Debug.LogWarning("NoteManager script not found on NoteManager GameObject.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("NoteManager GameObject not found in the scene.");
+        }
+    }
+
+    // Converts a list of notes to ShopCards
+    private List<ShopCard> ConvertNotesToShopCards(List<NoteData> notes)
+    {
+        List<ShopCard> shopCards = new List<ShopCard>();
+        foreach (var note in notes)
+        {
+            ShopCard card = new ShopCard();
+            card.note = note;
+            // Map int rarity (1-4) to enum Rarity
+            switch (note.rarity)
+            {
+                case 1:
+                    card.rarity = Rarity.Common;
+                    break;
+                case 2:
+                    card.rarity = Rarity.Rare;
+                    break;
+                case 3:
+                    card.rarity = Rarity.Epic;
+                    break;
+                case 4:
+                    card.rarity = Rarity.Legendary;
+                    break;
+                default:
+                    card.rarity = Rarity.Common;
+                    break;
+            }
+            card.cardName = note.noteName;
+            card.icon = note.icon;
+            shopCards.Add(card);
+        }
+        Debug.Log($"Converted {shopCards.Count} notes to ShopCards.");
+        return shopCards;
+    }
+    
 
     public void PresentShop()
     {

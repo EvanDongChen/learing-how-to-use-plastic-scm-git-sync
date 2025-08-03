@@ -76,7 +76,7 @@ public class NoteManager : MonoBehaviour
             for (int i = 0; i < 9; i++)
             {
                 NoteData note = ScriptableObject.CreateInstance<NoteData>();
-                note.rarity = (int)rarity;
+                note.rarity = (int)rarity + 1;
                 note.level = rarity == Rarity.Common ? 1 : 2;
 
                 // Pick element in round-robin for balance
