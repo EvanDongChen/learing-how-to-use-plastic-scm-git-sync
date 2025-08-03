@@ -1466,7 +1466,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bars:
   - {fileID: 909346407}
-  - {fileID: 0}
   projectileManager: {fileID: 1262083227}
   playhead: {fileID: 852404403}
   beatsPerMin: 60
