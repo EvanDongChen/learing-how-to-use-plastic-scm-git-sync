@@ -11,6 +11,8 @@ public class EnemyHealthScript : MonoBehaviour
 
     public GameObject damageTextPrefab;       // Assign your floatingText prefab here
 
+    public EnemySpawner spawner;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -163,6 +165,10 @@ public class EnemyHealthScript : MonoBehaviour
     private void Die()
     {
         Debug.Log("Enemy died.");
+        if (spawner != null)
+        {
+            spawner.OnEnemyDied();
+        }
         Destroy(gameObject);
     }
 }
