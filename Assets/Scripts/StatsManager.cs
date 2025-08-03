@@ -4,7 +4,7 @@ using System.Collections;
 public class StatsManager : MonoBehaviour
 {
     [Header("Base Stats")]
-    public int baseHealth = 5;
+    public int baseHealth = 20;
     public float baseMoveSpeed = 5f;
     public float baseAttackSpeed = 1f;
 
