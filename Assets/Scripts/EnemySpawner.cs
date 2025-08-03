@@ -10,28 +10,24 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Wave and Door Settings")]
     public DoorController[] doors;
-    public int waveNumber = 0;
 
     [Header("Spawner Behavior")]
     public bool autoStartOnGameBegin = false;
 
-    private bool waveActive = false;
 
     void Start()
     {
         if (autoStartOnGameBegin)
         {
-            StartWave();
+            StartWave(GameManager.Instance.currentWave);
         }
     }
 
-    public void StartWave()
+    public void StartWave(int currentWave)
     {
-        if (waveActive) return;
 
-        waveNumber++;
-        int enemyCount = waveNumber + 2;
-        waveActive = true;
+        int enemyCount = GameManager.Instance.currentWave*2 + 1;// Example logic for enemy count
+        GameManager.Instance.SetWaveActive(true);
 
         CloseAllDoors();
         StartCoroutine(SpawnEnemies(enemyCount));
@@ -55,14 +51,14 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator CheckForWaveEnd()
     {
-        while (waveActive)
+        while (GameManager.Instance.isWaveActive)
         {
             yield return new WaitForSeconds(1f);
 
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             if (enemies.Length == 0)
             {
-                waveActive = false;
+                GameManager.Instance.OnWaveEnd();
                 OpenAllDoors();
                 yield break;
             }
@@ -85,11 +81,6 @@ public class EnemySpawner : MonoBehaviour
             foreach (var door in doors)
                 door.OpenDoor();
         }
-    }
-
-    public bool IsWaveActive()
-    {
-        return waveActive;
     }
 
 }

@@ -7,7 +7,7 @@ public class RoomController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !spawner.IsWaveActive())
+        if (other.CompareTag("Player") && !GameManager.Instance.isWaveActive)
         {
             // Close the doors of the *previous room*
             foreach (var door in doorsToCloseOnEnter)
@@ -17,7 +17,7 @@ public class RoomController : MonoBehaviour
             }
 
             // Start this room's wave
-            spawner.StartWave();
+            GameManager.Instance.StartWave();
         }
     }
 }

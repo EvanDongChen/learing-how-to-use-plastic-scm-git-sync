@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     //public properties
     public bool waveClear { get; set; }    public bool isEditable { get; private set; }
+    public int currentWave { get; private set; } = 0;
+    public bool isWaveActive { get; private set; } = false;
     public GameState previousState;
 
     private void Awake()
@@ -120,7 +122,15 @@ public class GameManager : MonoBehaviour
 
     private void runRoundEnd()
     {
-        Debug.Log("Game Manager: Round ended | Shop opening");
+        Debug.Log("GameManager: Round ended. shop openeing");
+
+        GameObject shopCanvas = GameObject.Find("ShopCanvas");
+        if (shopCanvas != null)
+        {
+            shopCanvas.SetActive(true);
+        }
+
+        isEditable = true;
     }
 
     private void runRoundStart()
@@ -193,6 +203,35 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Start");
         }
         updateGameState(previousState);
+    }
+
+    public void StartWave()
+    {
+        currentWave++;
+        isWaveActive = true;
+
+        EnemySpawner enemySpawner = FindAnyObjectByType<EnemySpawner>();
+        if (enemySpawner != null)
+        {
+            enemySpawner.StartWave(currentWave);
+        }
+        else
+        {
+            Debug.LogWarning("EnemySpawner not found in the scene.");
+        }
+    }
+
+    public void OnWaveEnd()
+    {
+        isWaveActive = false;
+        waveClear = true;
+
+        updateGameState(GameState.RoundEnd);
+    }
+
+    public void SetWaveActive(bool isActive)
+    {
+        isWaveActive = isActive;
     }
 
 

@@ -25,6 +25,7 @@ public class HealthBar : MonoBehaviour
             return;
 
         targetFillAmount = (float)statsManager.currentHealth / statsManager.maxHealth;
+        Debug.Log($"Health: {statsManager.currentHealth}/{statsManager.maxHealth}, Fill Amount: {targetFillAmount}");
 
         healthFillImage.fillAmount = Mathf.Lerp(healthFillImage.fillAmount, targetFillAmount, Time.deltaTime * lerpSpeed);
     }
