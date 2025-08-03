@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
+    private MusicSheetManager musicSheetManager;
+
     public static GameManager Instance
     {
         get
@@ -29,7 +31,8 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnStateChange;
 
     //public properties
-    public bool waveClear {  get; set; }
+    public bool waveClear { get; set; }
+    public bool isEditable { get; private set; }
     public GameState previousState;
 
     private void Awake()
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        musicSheetManager = FindAnyObjectByType<MusicSheetManager>();
         updateGameState(GameState.StartMenu);
     }
 
@@ -80,6 +84,12 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.PausePage:
                 runPausePage();
+                break;
+            case GameState.RoundStart:
+                runRoundStart();
+                break;
+            case GameState.GamePlay:
+                runGamePlay();
                 break;
             case GameState.RoundEnd:
                 runRoundEnd();
@@ -112,6 +122,28 @@ public class GameManager : MonoBehaviour
     private void runRoundEnd()
     {
         Debug.Log("Game Manager: Round ended | Shop opening");
+    }
+
+    private void runRoundStart()
+    {
+        Debug.Log("GameManager: Round is starting. Player can edit music sheet.");
+        isEditable = true;
+    }
+
+    private void runGamePlay()
+    {
+        Debug.Log("GameManager: Starting music playback.");
+        isEditable = false;
+
+        if (musicSheetManager == null)
+        {
+            musicSheetManager = FindAnyObjectByType<MusicSheetManager>();
+        }
+
+        if (musicSheetManager != null)
+        {
+            musicSheetManager.TogglePlayback();
+        }
     }
 
     private void runPausePage()
@@ -173,6 +205,17 @@ public class GameManager : MonoBehaviour
             Debug.Log("DEBUG: Changing to Round End State");
             updateGameState(GameState.RoundEnd);
         }
+
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            Debug.Log("DEBUG: Changing to Round Start State");
+            updateGameState(GameState.RoundStart);
+        }
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            Debug.Log("DEBUG: Changing to GamePlay State");
+            updateGameState(GameState.GamePlay);
+        }
     }
 
 
@@ -184,6 +227,8 @@ public enum GameState
     MainGame,
     OptionsMenu,
     PausePage,
+    RoundStart,
+    GamePlay,
     RoundEnd,
     Lose,
     Win

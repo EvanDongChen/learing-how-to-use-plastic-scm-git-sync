@@ -3,13 +3,14 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using UnityEngine.UI;
 
 public class BarManager : MonoBehaviour, IDropHandler
 {
     //Handles logic for adding/arranging notes
 
     //to make all the note duration values whole numbers
-    public int scalingFactor = 4;
+    public int scalingFactor = 2;
     public int totalTicksInBar = 4;
     public GameObject noteOnBarPrefab;
 
@@ -19,28 +20,36 @@ public class BarManager : MonoBehaviour, IDropHandler
     public float fixedNoteWidth = 30f;
 
     [SerializeField] private RectTransform fillBar;
-    [SerializeField] private RectTransform fillInner;
+    [SerializeField] private Image fillInner;
+    public Gradient fillColorGradient;
 
     private float targetFillPercent = 0f;
     private float currentFillPercent = 0f;
     [SerializeField] private float fillSpeed = 3f;
+
+    //visual cues
+    public GameObject restNotePrefab;
+    public Transform restNoteContainer;
+    private List<GameObject> restVisuals = new List<GameObject>();
 
 
     private void Awake()
     {
         barRect = GetComponent<RectTransform>();
         totalTicksInBar *= scalingFactor;
+        InitializeRests();
     }
 
     private void Update()
-{
-    if (fillInner == null || fillBar == null) return;
+    {
+        if (fillInner == null || fillBar == null) return;
     
-    currentFillPercent = Mathf.Lerp(currentFillPercent, targetFillPercent, Time.deltaTime * fillSpeed);
+        currentFillPercent = Mathf.Lerp(currentFillPercent, targetFillPercent, Time.deltaTime * fillSpeed);
 
-    float fullWidth = fillBar.rect.width;
-    fillInner.sizeDelta = new Vector2(fullWidth * currentFillPercent, fillInner.sizeDelta.y);
-}
+        float fullWidth = fillBar.rect.width;
+        fillInner.rectTransform.sizeDelta = new Vector2(fullWidth * currentFillPercent, fillInner.rectTransform.sizeDelta.y);
+        fillInner.color = fillColorGradient.Evaluate(currentFillPercent);
+    }
 
 
     public List<PlacedNote> GetPlacedNotes()
@@ -51,6 +60,11 @@ public class BarManager : MonoBehaviour, IDropHandler
     //notes being dropped on the bar
     public void OnDrop(PointerEventData eventData)
     {
+        Debug.Log($"OnDrop event fired on the '{this.gameObject.name}' object.");
+
+        //can only edit the bar when it's editable
+        if (!GameManager.Instance.isEditable) return;
+
         if (eventData.pointerDrag != null)
         {
             DraggableNote draggedNote = eventData.pointerDrag.GetComponent<DraggableNote>();
@@ -61,8 +75,6 @@ public class BarManager : MonoBehaviour, IDropHandler
                 InventoryManager.Instance.RemoveNote(draggedNote.noteData);
 
                 draggedNote.wasAcceptedIntoBar = true;
-
-                Destroy(draggedNote.gameObject);
             }
         }
     }
@@ -72,6 +84,7 @@ public class BarManager : MonoBehaviour, IDropHandler
     {
         //check if bar is full
         int currentTicks = (int)notesInBar.Sum(note => note.noteData.noteDuration * scalingFactor);
+        Debug.Log($"Debug Log Can Note Fit: {currentTicks + noteData.noteDuration * scalingFactor <= totalTicksInBar}");
         return currentTicks + noteData.noteDuration * scalingFactor <= totalTicksInBar;
     }
 
@@ -163,7 +176,41 @@ public class BarManager : MonoBehaviour, IDropHandler
 
     private void UpdateBarFillVisual()
     {
+        float sumOfDurations = notesInBar.Sum(note => note.noteData.noteDuration);
+        int calculatedTicks = (int)(sumOfDurations * scalingFactor);
+        Debug.Log($"UPDATING BAR LOGIC: Notes in List = {notesInBar.Count} || Sum of Note Durations = {sumOfDurations} || Final Calculated Ticks = {calculatedTicks}");
+
         int currentTicks = (int)notesInBar.Sum(note => note.noteData.noteDuration * scalingFactor);
         targetFillPercent = Mathf.Clamp01((float)currentTicks / totalTicksInBar);
+
+        int filledBeats = currentTicks / scalingFactor;
+        for (int i = 0; i < restVisuals.Count; i++)
+        {
+            restVisuals[i].SetActive(i >= filledBeats);
+        }
+
     }
+
+    //initialize thee rests
+
+    private void InitializeRests()
+    {
+        if (restNotePrefab == null || restNoteContainer == null) return;
+
+        foreach (Transform child in restNoteContainer)
+        {
+            Destroy(child.gameObject);
+        }
+        restVisuals.Clear();
+
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject restGO = Instantiate(restNotePrefab, restNoteContainer);
+            restGO.transform.localScale = Vector3.one;
+            restGO.GetComponent<Image>().raycastTarget = false;
+
+            restVisuals.Add(restGO);
+        }
+    }
+
 }
