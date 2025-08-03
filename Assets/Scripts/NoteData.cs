@@ -23,10 +23,8 @@ public class NoteData : ScriptableObject
         Reverb,
         /// <summary>Enhances the next note to deal double damage, stacks if next is harmonic</summary>
         Harmonic,
-        /// <summary>Bonus damage per note of matching type</summary>
+        /// <summary>Boneus damage per note of matching type</summary>
         Symponic,
-        /// <summary>Traps enemies hit in place</summary>
-        Dissonance,
         /// <summary>Temporarily disrupts the enemy’s rhythm, slowing their actions in bursts</summary>
         Syncopate,
         /// <summary>Increases damage by the number of legato notes in your music</summary>
