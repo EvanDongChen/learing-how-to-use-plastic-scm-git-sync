@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cda0ea56e1e3d2408365e6fba00cdb1, type: 3}
+  m_Name: AttributeDatabase
+  m_EditorClassIdentifier: 
+  attributeIcons:
+  - attributeName: Reverb
+    icon: {fileID: -8725440944326084698, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Harmonic
+    icon: {fileID: 9152056960786637504, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Symponic
+    icon: {fileID: -4176920436240213054, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Syncopate
+    icon: {fileID: 7228785389488148030, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Legato
+    icon: {fileID: -7874067496603088461, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Forte
+    icon: {fileID: -1151699858576453342, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Staccato
+    icon: {fileID: -952414648942176714, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Trio
+    icon: {fileID: -4833559296311563021, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Quartet
+    icon: {fileID: 6668257068643181284, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Quintet
+    icon: {fileID: 3463132704548854003, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Accelerando
+    icon: {fileID: 2030710438247332936, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Melody
+    icon: {fileID: 6499849727885303510, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}
+  - attributeName: Cadence
+    icon: {fileID: -7137872220903551774, guid: 6c2041f05f91235409a21baa2a56b6d4, type: 3}

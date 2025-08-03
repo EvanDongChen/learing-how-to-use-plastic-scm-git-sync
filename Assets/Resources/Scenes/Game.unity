@@ -650,8 +650,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
+  m_ChildAlignment: 3
+  m_Spacing: 2
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -783,6 +783,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 2525945952434879721, guid: 8118a1fd1a9c3454db22161400b76516, type: 3}
   shopPanel: {fileID: 33315326}
   shopCanvas: {fileID: 1362113541}
+  attributeDB: {fileID: 11400000, guid: 0af92351a0ba6cd43981d010c4f9b75b, type: 2}
 --- !u!4 &486560747
 Transform:
   m_ObjectHideFlags: 0
@@ -2426,16 +2427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d75379167285e1458c1e2172f4484cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFollow: {fileID: 840825037}
-  playerTransform: {fileID: 0}
-  mapViewAnchor: {fileID: 0}
-  musicSheet: {fileID: 559449658}
-  healthBar: {fileID: 1234554046}
-  playerZoom: 3
-  mapZoom: 10
-  zoomSpeed: 5
-  targetZoom: 0
-  cam: {fileID: 0}
 --- !u!4 &967401863
 Transform:
   m_ObjectHideFlags: 0
@@ -3502,6 +3493,7 @@ MonoBehaviour:
   noteIcon: {fileID: 1233831825}
   attributesContainer: {fileID: 370237757}
   attributeTagPrefab: {fileID: 6800500859543365362, guid: ff25370c6ecdcda448187dccd9729c72, type: 3}
+  attributeDB: {fileID: 11400000, guid: 0af92351a0ba6cd43981d010c4f9b75b, type: 2}
   mainCanvas: {fileID: 2131677030}
 --- !u!222 &1253090281
 CanvasRenderer:
@@ -3704,22 +3696,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 370237757}
     m_Modifications:
-    - target: {fileID: 2660661140921437970, guid: ff25370c6ecdcda448187dccd9729c72, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 2660661140921437970, guid: ff25370c6ecdcda448187dccd9729c72, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 2660661140921437970, guid: ff25370c6ecdcda448187dccd9729c72, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -1.957
-      objectReference: {fileID: 0}
-    - target: {fileID: 2660661140921437970, guid: ff25370c6ecdcda448187dccd9729c72, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.000002265
-      objectReference: {fileID: 0}
     - target: {fileID: 2675866439426472456, guid: ff25370c6ecdcda448187dccd9729c72, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3800,10 +3776,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3724471706619974768, guid: ff25370c6ecdcda448187dccd9729c72, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -8239847882041643492, guid: 32331b8f513ba8144a9e9dd5d26ddea8, type: 3}
     - target: {fileID: 6800500859543365362, guid: ff25370c6ecdcda448187dccd9729c72, type: 3}
       propertyPath: m_Name
       value: AttributeTagPrefab
