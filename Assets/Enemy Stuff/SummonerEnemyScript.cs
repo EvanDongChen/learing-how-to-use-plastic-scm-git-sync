@@ -7,7 +7,7 @@ public class SummonerEnemyScript : MonoBehaviour
 
     public float walkSpeed = 2.5f;
     public float attackRange = 8f;
-    public float fireRate = 1f;
+    public float fireRate = 3f;
     public GameObject minionPrefab;
     public Transform spawnPoint;
 
