@@ -365,6 +365,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8526511604651413671, guid: 70d8d5e3e3d85fa45af080e9ea98ce1e, type: 3}
+      propertyPath: quarterNoteIcon
+      value: 
+      objectReference: {fileID: 7267170179426877965, guid: 8243079449d98f747b784622ae75a6db, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1331,7 +1335,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 14.2065, y: 16.395}
+  m_SizeDelta: {x: 99.6, y: 16.395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537194214
 MonoBehaviour:
@@ -3487,6 +3491,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: be08296547261b5419ad205e1f0ba0ca, type: 2}
   - {fileID: 11400000, guid: 53534a5cc8dc7f243810ab20b9a76092, type: 2}
   - {fileID: 11400000, guid: b8e0f812f397f374d9518a8740211840, type: 2}
+  - {fileID: 11400000, guid: 5893645f6da4fc645abaaf396d1ced60, type: 2}
   notePrefab: {fileID: 0}
   WholeNote: {fileID: -410067548819153133, guid: 8859970331a48004781172506c6bd44f, type: 3}
   HalfNote: {fileID: 3140462923109054130, guid: 8859970331a48004781172506c6bd44f, type: 3}
@@ -4765,8 +4770,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5463,7 +5468,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 34.8, y: -88.3}
+  m_AnchoredPosition: {x: 34.8, y: -95.1}
   m_SizeDelta: {x: 146.4638, y: 40.163}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1652249818
@@ -6938,7 +6943,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 3
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1

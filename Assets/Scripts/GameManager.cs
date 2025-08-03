@@ -2,11 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     private MusicSheetManager musicSheetManager;
+
+    public Sprite quarterNoteIcon;
 
     public static GameManager Instance
     {
@@ -170,6 +173,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager: Loading Game");
         SceneManager.LoadScene("Game");
+        GiveStarterNotes();
     }
 
     private void runStartMenu()
@@ -232,6 +236,43 @@ public class GameManager : MonoBehaviour
     public void SetWaveActive(bool isActive)
     {
         isWaveActive = isActive;
+    }
+
+    private void GiveStarterNotes()
+    {
+        Debug.Log("Giving player starter notes...");
+
+        NoteData fireNote = ScriptableObject.CreateInstance<NoteData>();
+        fireNote.noteName = "Fire Quarter Note"; 
+        fireNote.level = 1;
+        fireNote.element = NoteData.Elements.Fire;
+        fireNote.rarity = 1;
+        fireNote.noteDuration = 1f;
+        fireNote.icon = quarterNoteIcon;
+        fireNote.attributes = new List<NoteData.AttributeType>();
+        InventoryManager.Instance.AddNote(fireNote);
+
+        // Create Water Note
+        NoteData waterNote = ScriptableObject.CreateInstance<NoteData>();
+        waterNote.noteName = "Water Quarter Note";
+        waterNote.level = 1;
+        waterNote.element = NoteData.Elements.Water;
+        waterNote.rarity = 1;
+        waterNote.noteDuration = 1f;
+        waterNote.icon = quarterNoteIcon; // <-- Using the new, single icon
+        waterNote.attributes = new List<NoteData.AttributeType>();
+        InventoryManager.Instance.AddNote(waterNote);
+
+        // Create Lightning Note
+        NoteData lightningNote = ScriptableObject.CreateInstance<NoteData>();
+        lightningNote.noteName = "Lightning Quarter Note";
+        lightningNote.level = 1;
+        lightningNote.element = NoteData.Elements.Lightining;
+        lightningNote.rarity = 1;
+        lightningNote.noteDuration = 1f;
+        lightningNote.icon = quarterNoteIcon;
+        lightningNote.attributes = new List<NoteData.AttributeType>();
+        InventoryManager.Instance.AddNote(lightningNote);
     }
 
 
