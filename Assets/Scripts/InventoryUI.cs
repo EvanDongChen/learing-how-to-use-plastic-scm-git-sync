@@ -29,13 +29,14 @@ public class InventoryUI : MonoBehaviour, IDropHandler
         {
             GameObject slotGO = Instantiate(inventorySlotPrefab, slotContainer);
             GameObject noteGO = Instantiate(draggableNotePrefab, slotGO.transform);
+            noteGO.transform.SetAsLastSibling();
 
             RectTransform noteRectTransform = noteGO.GetComponent<RectTransform>();
             noteRectTransform.anchoredPosition = Vector2.zero;
 
             // Get the DraggableNote script and give it the data
             DraggableNote note = noteGO.GetComponent<DraggableNote>();
-            note.noteData = noteData;
+            note.Initialize(noteData);
         }
     }
 

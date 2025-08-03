@@ -37,6 +37,8 @@ public class MusicSheetManager : MonoBehaviour
 
     public void TogglePlayback()
     {
+        Debug.Log($"TogglePlayback called at time {Time.time}. 'isPlaying' is currently: {isPlaying}");
+
         isPlaying = !isPlaying;
 
         if (isPlaying)

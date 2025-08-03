@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public NoteData noteData;
+    public NoteData noteData { get; private set; }
     public Image icon;
 
 
@@ -14,8 +14,17 @@ public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     [HideInInspector]
     public bool wasAcceptedIntoBar = false;
-    private void Start()
+
+    private void Awake()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null) { canvasGroup = gameObject.AddComponent<CanvasGroup>(); }
+
+    }
+
+    public void Initialize(NoteData data)
+    {
+        noteData = data;
         SetupNoteVisual();
     }
 
@@ -39,18 +48,16 @@ public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         };
     }
 
-    private void Awake()
-    {
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null) { canvasGroup = gameObject.AddComponent<CanvasGroup>(); }
-    }
-
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!GameManager.Instance.isEditable) return;
-
         originalParent = transform.parent;
         originalPosition = transform.position;
+
+        if (!GameManager.Instance.isEditable)
+        {
+            eventData.pointerDrag = null;
+            return;
+        }
 
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
@@ -61,25 +68,24 @@ public class DraggableNote : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = eventData.position;
+        if (eventData.pointerDrag == gameObject)
+        {
+            transform.position = eventData.position;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = true;
 
-        if (!wasAcceptedIntoBar)
+        if (wasAcceptedIntoBar)
+        {
+            Destroy(gameObject);
+        }
+        else
         {
             transform.SetParent(originalParent);
             transform.position = originalPosition;
-        }
-
-        // Check if we dropped it on something that wasn't a BarManager
-        if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<BarManager>() == null)
-        {
-            // If not, snap back to the inventory
-            transform.SetParent(originalParent);
-            transform.position = originalParent.position;
         }
     }
 }

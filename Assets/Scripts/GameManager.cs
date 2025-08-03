@@ -134,6 +134,12 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager: Starting music playback.");
         isEditable = false;
+
+        if (musicSheetManager == null)
+        {
+            musicSheetManager = FindAnyObjectByType<MusicSheetManager>();
+        }
+
         if (musicSheetManager != null)
         {
             musicSheetManager.TogglePlayback();
@@ -204,6 +210,11 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("DEBUG: Changing to Round Start State");
             updateGameState(GameState.RoundStart);
+        }
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            Debug.Log("DEBUG: Changing to GamePlay State");
+            updateGameState(GameState.GamePlay);
         }
     }
 
